@@ -1,6 +1,6 @@
-// const API_BASE_URL = "https://upvc.pythonanywhere.com/api";
+const API_BASE_URL = "https://upvc.pythonanywhere.com/api";
 // Use this for local testing:
-const API_BASE_URL = "http://localhost:8000/api";
+// const API_BASE_URL = "http://localhost:8000/api";
 
 async function fetchFeaturedProducts() {
     try {
