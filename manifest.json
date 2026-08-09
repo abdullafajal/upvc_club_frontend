@@ -1,0 +1,21 @@
+{
+  "name": "UPVC Club",
+  "short_name": "UPVC Club",
+  "description": "Premium UPVC and Aluminium Fabrication, Windows, Doors, and Balcony Coverings in Noida & NCR.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FEF7FF",
+  "theme_color": "#FEF7FF",
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

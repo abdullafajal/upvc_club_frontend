@@ -1,0 +1,34 @@
+# UPVC Club - Business & Technical Overview
+
+## Business Overview
+**UPVC Club** is a premium fabrication and architectural solutions provider based in Greater Noida (serving Noida & NCR). The company specializes in manufacturing and installing high-quality materials for modern homes and commercial spaces.
+
+### Core Offerings & Services
+1. **UPVC & Aluminium Fabrication:** Manufacturing and installation of custom windows, doors, and office partitions using premium-grade materials.
+2. **Balcony Coverings:** Turning unused balconies into functional, aesthetic living areas that protect homes from dust, rain, and noise.
+3. **Glass Solutions:** Including structural glazing, toughened glass partitions, shower cubicles, and custom-fit glass enclosures.
+4. **Jali Doors (Mosquito Nets):** High-quality pleated and sliding mesh doors for insect protection.
+5. **Premium Hardware:** Supplying top-brand handles, locks, hinges, and accessories for Aluminium and Glass fittings.
+6. **Interiors:** Modular kitchens, wardrobes, and sleek profile panels providing premium wooden aesthetics without the maintenance.
+
+### Target Audience
+Homeowners, architects, and builders looking for energy-efficient, durable, soundproof, and stylish design solutions for their properties.
+
+### Key Customer Workflows on the Website
+- **Exploring the Portfolio:** Viewing past installations of glass, UPVC, and aluminium work.
+- **Product Catalog:** Browsing different window styles (sliding, casement, fixed) and door types.
+- **Requesting Quotes:** Filling out contact forms to request measurements and quotations.
+- **Order Tracking:** Checking the real-time fabrication and installation status of their custom orders and downloading official quotation PDFs.
+
+---
+
+## Technical Stack & Architecture
+
+This repository contains the static frontend for the UPVC Club website. It is designed to be hosted on GitHub Pages and communicates with a Django REST API.
+
+- **Frontend Technologies:** Vanilla HTML5, JavaScript, and Tailwind CSS. (No frontend frameworks like React or Vue are used).
+- **Dynamic Data Hydration:** Because the site is statically hosted, all dynamic data (such as hero images, stats, contact info, and portfolio items) is fetched asynchronously via the browser's `fetch` API from the backend.
+- **API Logic:** All core frontend logic for communicating with the Django backend and manipulating the DOM resides in `assets/js/api.js`.
+- **Backend integration:** The `API_BASE_URL` in `api.js` points to the Django backend (e.g., `https://upvc.pythonanywhere.com/api` in production).
+
+**Note to LLMs:** When updating this codebase, ensure all changes remain compatible with a completely static hosting environment. Use the `api.js` file for all backend data integration.
