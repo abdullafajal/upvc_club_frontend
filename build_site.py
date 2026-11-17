@@ -35,7 +35,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "_src"
-VERSION = "2.2.0"
+
+def _asset_version() -> str:
+    """Content hash of the CSS/JS, so every change gets a new ?v= and caches never serve stale files."""
+    import hashlib
+    h = hashlib.sha1()
+    for f in sorted([*Path(__file__).resolve().parent.glob("assets/css/*.css"), *Path(__file__).resolve().parent.glob("assets/js/*.js")]):
+        h.update(f.name.encode()); h.update(f.read_bytes())
+    return h.hexdigest()[:10]
+
+
+VERSION = _asset_version()
 API = "https://upvc.pythonanywhere.com/api"
 SITE = "https://upvcclub.com/"
 TODAY = datetime.date.today().isoformat()
@@ -221,6 +231,7 @@ def render(meta: dict, head: str, body: str, scripts: str, ld_nodes: list, body_
     for token, frag in re.findall(r"(\{\{include:([\w.-]+)\}\})", body):
         body = body.replace(token, (SRC / frag).read_text())
     body = body.replace("{{faq}}", faq_html()).replace("{{areas}}", areas_html())
+    head, scripts = head.replace("{{version}}", VERSION), scripts.replace("{{version}}", VERSION)
 
     layout = (SRC / "layout.html").read_text()
     values = {
@@ -401,6 +412,11 @@ def main() -> None:
         body = body.replace("{{featured_grid}}", "".join(card(p) for p in featured))
         (ROOT / meta["out"]).write_text(render(meta, head, body, scripts, page_schema(meta, products), static_slugs=static_slugs))
         pages.append(meta["out"])
+    # keep the service worker in step with the asset version
+    sw = ROOT / "sw.js"
+    text = re.sub(r"\?v=[\w.]+", "?v=" + VERSION, sw.read_text())
+    text = re.sub(r"const CACHE_NAME = '[^']+';", f"const CACHE_NAME = 'upvc-club-{VERSION}';", text)
+    sw.write_text(text)
     write_sitemap(sorted(set(pages), key=lambda x: (x != "index.html", x)))
     write_robots()
     write_llms(products)
