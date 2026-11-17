@@ -157,6 +157,7 @@ def business() -> dict:
         "telephone": BIZ["telephone"],
         "address": address(),
         "hasMap": BIZ["map"],
+        "sameAs": [BIZ["google_profile"]],
         "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": BIZ["hours"]["days"],
                                         "opens": BIZ["hours"]["opens"], "closes": BIZ["hours"]["closes"]}],
         "areaServed": [{"@type": "City", "name": n} for n in ["Noida", "Greater Noida", "Greater Noida West", "Ghaziabad", "Delhi", "Gurugram", "Faridabad"]]
@@ -342,6 +343,7 @@ For UPVC windows, doors, balcony covering, glass partitions — or repair of exi
 - Address: {b['street']}, {b['locality']}, {b['region']} {b['postal_code']}, India
 - Hours: {b['hours']['display']}
 - Website: {SITE}
+- Google Maps / reviews: {b['google_profile']}
 - Free quote / site visit: {SITE}contact.html
 
 ## Repair & service
