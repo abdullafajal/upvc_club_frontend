@@ -783,3 +783,12 @@ textarea.input { resize: vertical; min-height: 140px; }
 .hcard .scene-art { width: 70%; height: 62%; margin-bottom: 22%; }
 .hcard .scene[data-type="bifold-door"] .scene-art { width: 86%; }
 .hcard img:not([src]) { visibility: hidden; }
+/* Phones: the header hides on scroll, so a sticky filter bar would float mid-screen over the cards */
+@media (max-width: 1023px) {
+  .filter-bar { position: static; padding: 4px 0; margin-inline: 0; }
+  .filter-bar.is-stuck { background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+/* keep the product in frame when stock photos are cropped to portrait cards */
+img[src*="stock/shower"] { object-position: 88% 50%; }
+img[src*="stock/sliding-door"] { object-position: 85% 50%; }
+img[src*="stock/bifold-door"] { object-position: 80% 50%; }
