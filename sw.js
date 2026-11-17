@@ -1,4 +1,4 @@
-const CACHE_NAME = 'upvc-club-cache-v11';
+const CACHE_NAME = 'upvc-club-d7a743ab3d';
 
 // Core assets cached on install (versioned via ?v= in the HTML)
 const PRECACHE_ASSETS = [
@@ -6,12 +6,12 @@ const PRECACHE_ASSETS = [
   './index.html',
   './visualizer.html',
   './manifest.json',
-  './assets/css/site.css?v=2.2.0',
-  './assets/css/visualizer.css?v=2.2.0',
-  './assets/js/api.js?v=2.2.0',
-  './assets/js/site.js?v=2.2.0',
-  './assets/js/frames.js?v=2.2.0',
-  './assets/js/visualizer.js?v=2.2.0',
+  './assets/css/site.css?v=d7a743ab3d',
+  './assets/css/visualizer.css?v=d7a743ab3d',
+  './assets/js/api.js?v=d7a743ab3d',
+  './assets/js/site.js?v=d7a743ab3d',
+  './assets/js/frames.js?v=d7a743ab3d',
+  './assets/js/visualizer.js?v=d7a743ab3d',
   './assets/vendor/gsap.min.js',
   './assets/vendor/ScrollTrigger.min.js',
   './assets/vendor/SplitText.min.js',
