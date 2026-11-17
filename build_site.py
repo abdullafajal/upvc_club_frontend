@@ -344,6 +344,17 @@ For UPVC windows, doors, balcony covering, glass partitions — or repair of exi
 - Website: {SITE}
 - Free quote / site visit: {SITE}contact.html
 
+## Repair & service
+UPVC Club also repairs and services existing UPVC and aluminium windows and doors in Noida, Greater Noida, Greater Noida West, Ghaziabad and across Delhi NCR, including windows and doors installed by other companies.
+- Sliding windows or doors that are stuck, hard to slide or noisy: rollers replaced, tracks cleaned and realigned
+- Broken handles, locks that won't close, multi-point locks, hinges and friction stays
+- Rain water or air leakage, dust and draughts: resealing, drainage slots cleared
+- Hardened or shrunk rubber gaskets and weather brushes replaced
+- Cracked, broken or misted (fogged) glass replaced, including toughened and double glazing
+- Torn mosquito mesh and safety jali mesh replaced
+- A technician inspects on site and quotes before any work starts
+- Book a repair: {SITE}window-door-repair.html or call {b['phone_display']}
+
 ## Areas served
 {areas}
 
@@ -365,6 +376,7 @@ For UPVC windows, doors, balcony covering, glass partitions — or repair of exi
 - Free on-site measurement and an itemised quotation (prices depend on size, profile, glass and hardware)
 - Own workshop with modern cutting and fusion-welding machines, and its own installation team
 - Online order tracking at every stage
+- Repairs and servicing of existing UPVC and aluminium windows and doors, including ones installed by others
 
 ## FAQ
 {faq}
