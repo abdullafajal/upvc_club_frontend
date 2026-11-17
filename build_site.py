@@ -35,7 +35,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "_src"
-VERSION = "2.1.0"
+VERSION = "2.1.1"
 API = "https://upvc.pythonanywhere.com/api"
 SITE = "https://upvcclub.com/"
 TODAY = datetime.date.today().isoformat()

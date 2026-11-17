@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://upvc.pythonanywhere.com" crossorigin>
     <link rel="preload" href="./assets/fonts/manrope-variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="./assets/fonts/material-icons-outlined-subset.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="./assets/css/site.css?v=2.1.0">
+    <link rel="stylesheet" href="./assets/css/site.css?v=2.1.1">
 
     <!-- Google Analytics, loaded after the page is idle so it never slows the first paint -->
     <script>
@@ -208,7 +208,7 @@
 /* Load scripts after the first paint so they never compete with the content.
    They download in parallel and run in order; page scripts (type="text/upvc") run last. */
 (function () {
-    var shared = ["./assets/vendor/gsap.min.js", "./assets/vendor/ScrollTrigger.min.js", "./assets/vendor/SplitText.min.js", "./assets/vendor/lenis.min.js", "./assets/js/frames.js?v=2.1.0", "./assets/js/api.js?v=2.1.0", "./assets/js/site.js?v=2.1.0"];
+    var shared = ["./assets/vendor/gsap.min.js", "./assets/vendor/ScrollTrigger.min.js", "./assets/vendor/SplitText.min.js", "./assets/vendor/lenis.min.js", "./assets/js/frames.js?v=2.1.1", "./assets/js/api.js?v=2.1.1", "./assets/js/site.js?v=2.1.1"];
     function start() {
         var list = shared.concat([].map.call(document.querySelectorAll('script[type="text/upvc-src"]'), function (s) { return s.getAttribute("data-src"); }));
         var left = list.length;

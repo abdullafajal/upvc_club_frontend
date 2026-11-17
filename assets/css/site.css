@@ -839,3 +839,18 @@ img[src*="stock/partition"] { object-position: 20% 50%; }
 
 img[data-src] { visibility: hidden; }
 .hero-media { background: #2a3445; }
+
+/* Hero caption: keep the button clear of the clipped edges of the expanding image */
+.hero-media-caption { padding-bottom: calc(clamp(24px, 5vw, 64px) + 11svh); }
+@media (max-width: 640px) {
+  .hero-media-caption { padding-inline: 28px; gap: 16px; }
+  .hero-media-caption .btn { width: 100%; }
+}
+
+/* Product pages have their own bottom bar on phones: hide the dock and sit the bar at the bottom */
+@media (max-width: 1023px) {
+  .has-sticky-cta .dock { display: none; }
+  .has-sticky-cta .mobile-sticky-cta { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transition: transform 0.5s var(--ease-out); }
+  .has-sticky-cta .wa-fab { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .has-sticky-cta .site-footer { padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); }
+}
