@@ -103,7 +103,7 @@
 <section class="page-head" style="padding-bottom:clamp(24px,4vw,48px)">
     <div class="container">
         <div class="pd-top" data-intro>
-            <a href="products.html" class="back-btn" id="back-btn" aria-label="Back to products"><span class="material-icons-outlined" aria-hidden="true">arrow_back</span></a>
+            <a href="products.html" class="back-btn back-top js-back" aria-label="Back to products"><span class="material-icons-outlined" aria-hidden="true">arrow_back</span></a>
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="index.html">Home</a><span>/</span><a href="products.html">Products</a><span>/</span><span class="prod-name" aria-current="page">Safety Jali Door</span>
         </nav>
@@ -206,6 +206,7 @@
 </section>
 
 <div class="mobile-sticky-cta">
+    <a href="products.html" class="back-btn js-back" aria-label="Back to products"><span class="material-icons-outlined" aria-hidden="true">arrow_back</span></a>
     <a href="visualizer.html" class="btn btn-try js-try" style="flex:1"><span class="material-icons-outlined">view_in_ar</span> Try at home</a>
     <a href="contact.html" class="btn btn-light js-quote" style="flex:1">Enquire</a>
 </div>
@@ -302,11 +303,11 @@
 </script>
 <script type="text/upvc">
 // Back: return to the previous page on this site, otherwise go to the product list
-document.getElementById("back-btn").addEventListener("click", (e) => {
+document.querySelectorAll(".js-back").forEach((btn) => btn.addEventListener("click", (e) => {
     try {
         if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) { e.preventDefault(); history.back(); }
     } catch (err) { /* fall back to the link */ }
-});
+}));
 (async function () {
     const prerendered = document.body.dataset.slug;
     const slug = prerendered || new URLSearchParams(location.search).get("slug");

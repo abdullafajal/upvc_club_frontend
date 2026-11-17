@@ -863,3 +863,8 @@ img[data-src] { visibility: hidden; }
 .back-btn:hover { background: var(--ink); color: var(--white); }
 .back-btn .material-icons-outlined { font-size: 22px; }
 .pd-top .breadcrumb { min-width: 0; }
+/* Phones: back button lives in the bottom bar with Try at home / Enquire */
+.mobile-sticky-cta { align-items: center; }
+.mobile-sticky-cta .back-btn { width: 48px; height: 48px; box-shadow: none; }
+@media (max-width: 1023px) { .back-top { display: none; } }
+@media (max-width: 380px) { .mobile-sticky-cta .btn { padding: 12px 10px; font-size: 14px; gap: 6px; } .mobile-sticky-cta .btn .material-icons-outlined { font-size: 18px; } }
