@@ -920,3 +920,4 @@ img[data-src] { visibility: hidden; }
 .site-header.on-dark:not(.is-scrolled) .menu-btn { background: #fff; color: var(--ink); }
 .site-header.on-dark:not(.is-scrolled) .header-cta { --btn-bg: #fff; --btn-fg: var(--ink); }
 .site-header.on-dark:not(.is-scrolled) { background: var(--ink); }
+.footer-top a.btn { color: var(--btn-fg); } .footer-top a.btn:hover { color: #fff; }

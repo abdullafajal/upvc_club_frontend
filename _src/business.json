@@ -23,7 +23,7 @@
     "closes": "19:00",
     "display": "Mon–Sat, 9am–7pm"
   },
-  "map": "https://www.google.com/maps/search/?api=1&query=UPVC+Club+Sector+Chi+V+Greater+Noida",
+  "map": "https://share.google/iNos041pkh4tkz74P",
   "areas": [
     {
       "name": "Noida",
@@ -129,5 +129,6 @@
       "q": "How long does installation take, and can I track my order?",
       "a": "It depends on the number and size of windows. Your quotation includes the timeline, and you can follow every stage — approval, measurement, fabrication, ready, installation — on the Track Order page with your order number."
     }
-  ]
+  ],
+  "google_profile": "https://share.google/iNos041pkh4tkz74P"
 }
