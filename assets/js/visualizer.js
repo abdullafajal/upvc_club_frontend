@@ -418,6 +418,7 @@
     el.photo.hidden = kind !== "photo";
     if (kind !== "camera") stopCamera();
     el.start.hidden = true;
+    $(".viz").classList.remove("is-start");
     el.pauseBtn.hidden = kind !== "camera";
     el.flipBtn.hidden = kind !== "camera";
     resize();
@@ -684,7 +685,7 @@
   $("#viz-cam").addEventListener("click", startCamera);
   $("#viz-upload").addEventListener("click", () => el.file.click());
   $("#viz-sample").addEventListener("click", useSample);
-  $("#viz-source").addEventListener("click", () => { el.start.hidden = false; stopCamera(); });
+  $("#viz-source").addEventListener("click", () => { el.start.hidden = false; $(".viz").classList.add("is-start"); stopCamera(); });
   $("#viz-capture").addEventListener("click", capture);
   $("#viz-help-btn").addEventListener("click", () => openSheet(el.help));
   $("#viz-retake").addEventListener("click", () => closeSheet(el.sheet));
