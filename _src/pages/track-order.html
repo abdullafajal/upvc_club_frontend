@@ -1,0 +1,130 @@
+<!--
+{"title": "Track Your Order | UPVC Club", "description": "Track your UPVC Club order or quotation live — from approval and measurement to fabrication and installation.", "out": "track-order.html"}
+-->
+<section class="page-head">
+    <div class="container">
+        <span class="eyebrow" data-reveal data-reveal-now>Live status</span>
+        <h1 class="h1 mt balance" data-split data-split-now>Track your <span class="serif">order</span>.</h1>
+        <p class="lead mt" data-reveal data-reveal-now data-delay="0.2">Enter your order number (ORD-…) or quotation number (QT-…) to see exactly where your windows are.</p>
+        <form class="track-form mt-l" id="track-form" data-reveal data-reveal-now data-delay="0.3">
+            <label for="track-query" class="sr-only">Order or quotation number</label>
+            <input class="input" type="text" id="track-query" name="q" placeholder="e.g. ORD-202402-0001" required autocomplete="off" autocapitalize="characters">
+            <button type="submit" class="btn btn-red" id="track-btn"><span class="label">Track</span> <span class="material-icons-outlined">search</span></button>
+        </form>
+        <div id="track-error" class="notice notice-err mt hidden" role="alert" style="max-width:680px"><span class="material-icons-outlined">error_outline</span><span id="track-error-message"></span></div>
+    </div>
+</section>
+
+<section style="padding-bottom:clamp(80px,10vw,140px)">
+    <div class="container">
+        <div id="order-result" class="result-card hidden">
+            <div class="flex between wrap gap">
+                <div>
+                    <span class="eyebrow">Order</span>
+                    <h2 class="h2 mt-s" id="order-number"></h2>
+                    <p class="muted mt-s">Placed on <b id="order-placed-date"></b></p>
+                </div>
+                <div style="text-align:right">
+                    <span class="status-pill" id="order-status"></span>
+                    <p class="mt-s"><b id="customer-name"></b></p>
+                    <p class="small muted" id="customer-company"></p>
+                </div>
+            </div>
+            <ol class="stepper" id="stepper"></ol>
+            <div class="split" style="align-items:start">
+                <div>
+                    <h3 class="h4 mb">Timeline</h3>
+                    <div class="kv" id="order-dates"></div>
+                </div>
+                <div>
+                    <h3 class="h4 mb">Items</h3>
+                    <div class="kv" id="items-list"></div>
+                </div>
+            </div>
+            <div class="mt-l flex wrap gap-s">
+                <a id="order-pdf-link" href="#" target="_blank" rel="noopener" class="btn"><span class="material-icons-outlined">download</span> Download quotation PDF</a>
+                <a href="contact.html" class="btn btn-ghost">Need help? Contact us</a>
+            </div>
+        </div>
+
+        <div id="quotation-result" class="result-card hidden" style="max-width:680px">
+            <span class="eyebrow">Quotation</span>
+            <h2 class="h2 mt-s" id="quotation-number"></h2>
+            <p class="mt"><span class="status-pill" id="quotation-status"></span></p>
+            <div class="kv mt">
+                <div><span>Date</span><span id="quotation-date"></span></div>
+            </div>
+            <p class="muted mt">Work begins once this quotation is approved and converted into an order.</p>
+            <a id="quotation-pdf-link" href="#" target="_blank" rel="noopener" class="btn mt"><span class="material-icons-outlined">download</span> Download quotation</a>
+        </div>
+    </div>
+</section>
+<!-- @scripts -->
+<script>
+(function () {
+    const form = document.getElementById("track-form");
+    const input = document.getElementById("track-query");
+    const btn = document.getElementById("track-btn");
+    const err = document.getElementById("track-error");
+    const orderBox = document.getElementById("order-result");
+    const quoteBox = document.getElementById("quotation-result");
+    const e = UPVC.esc;
+    const kv = (k, v) => `<div><span>${e(k)}</span><span>${e(v)}</span></div>`;
+
+    async function track(q) {
+        err.classList.add("hidden"); orderBox.classList.add("hidden"); quoteBox.classList.add("hidden");
+        btn.disabled = true; btn.querySelector(".label").textContent = "Tracking…";
+        const data = await fetchTrackingData(q);
+        btn.disabled = false; btn.querySelector(".label").textContent = "Track";
+        if (!data || data.error) {
+            document.getElementById("track-error-message").textContent = (data && data.error) || "Not found";
+            err.classList.remove("hidden");
+            if (err.animate) err.animate([{ transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "none" }], { duration: 300 });
+            return;
+        }
+        history.replaceState(null, "", "?q=" + encodeURIComponent(q));
+        const pdf = (u) => (u ? (u.startsWith("http") ? u : API_ORIGIN + u) : null);
+
+        if (data.type === "order") {
+            document.getElementById("order-number").textContent = data.order_number;
+            document.getElementById("order-placed-date").textContent = data.dates.placed;
+            document.getElementById("order-status").textContent = data.status_display;
+            document.getElementById("customer-name").textContent = data.customer ? data.customer.contact_person || "" : "";
+            document.getElementById("customer-company").textContent = data.customer ? data.customer.company_name || "" : "";
+            document.getElementById("stepper").innerHTML = data.timeline_steps.map((s) => `
+                <li class="step ${s.is_completed ? "done" : ""} ${s.is_current ? "current" : ""}">
+                    <span class="step-dot"><span class="material-icons-outlined">${e(s.icon)}</span></span>
+                    <div><div class="step-label">${e(s.label)}</div><div class="step-date">${e(s.date || (s.is_completed ? "" : "Pending"))}</div></div>
+                </li>`).join("");
+            let dates = kv("Order placed", data.dates.placed);
+            if (data.dates.expected_delivery) dates += kv("Expected delivery", data.dates.expected_delivery);
+            if (data.dates.completed) dates += kv("Completed on", data.dates.completed);
+            document.getElementById("order-dates").innerHTML = dates;
+            const items = data.items || [];
+            document.getElementById("items-list").innerHTML = items.length
+                ? items.slice(0, 8).map((it) => kv(it.description + (it.width && it.height ? ` (${it.width}×${it.height})` : ""), `${it.quantity} ${it.unit || ""}`)).join("") + (items.length > 8 ? `<p class="small muted mt-s">+${items.length - 8} more items</p>` : "")
+                : '<p class="muted">Item details will appear once the quotation is linked.</p>';
+            const link = document.getElementById("order-pdf-link");
+            if (data.pdf_url) { link.href = pdf(data.pdf_url); link.classList.remove("hidden"); } else link.classList.add("hidden");
+            orderBox.classList.remove("hidden");
+            if (window.gsap) {
+                gsap.from(orderBox, { y: 40, opacity: 0, duration: 0.9, ease: "expo.out" });
+                gsap.from("#stepper .step", { y: 20, opacity: 0, stagger: 0.08, duration: 0.7, ease: "expo.out", delay: 0.2 });
+            }
+            orderBox.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+            document.getElementById("quotation-number").textContent = data.quote_number;
+            document.getElementById("quotation-status").textContent = data.status_display;
+            document.getElementById("quotation-date").textContent = data.date;
+            document.getElementById("quotation-pdf-link").href = pdf(data.pdf_url) || "#";
+            quoteBox.classList.remove("hidden");
+            if (window.gsap) gsap.from(quoteBox, { y: 40, opacity: 0, duration: 0.9, ease: "expo.out" });
+        }
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }
+
+    form.addEventListener("submit", (ev) => { ev.preventDefault(); const q = input.value.trim(); if (q) track(q); });
+    const initial = new URLSearchParams(location.search).get("q");
+    if (initial) { input.value = initial; track(initial); }
+})();
+</script>

@@ -1,0 +1,134 @@
+<!--
+{"title": "Contact Us — Free Quote & Site Visit | UPVC Club", "description": "Get a free quote or book a site visit for UPVC & aluminium windows, doors and partitions in Noida & NCR. Call, email or send us a message.", "out": "contact.html"}
+-->
+<section class="page-head">
+    <div class="container">
+        <span class="eyebrow" data-reveal data-reveal-now>Get in touch</span>
+        <h1 class="h1 mt balance" data-split data-split-now>Let's build something <span class="serif">great</span>.</h1>
+        <p class="lead mt" data-reveal data-reveal-now data-delay="0.2">A question about finishes, a custom quotation or a site visit — our team usually replies within a few hours.</p>
+    </div>
+</section>
+
+<section style="padding-bottom:clamp(80px,10vw,140px)">
+    <div class="container contact-grid">
+        <div class="contact-cards" data-reveal-stagger>
+            <a class="contact-card dynamic-phone-link" href="tel:+919582010747" data-reveal>
+                <span class="ic"><span class="material-icons-outlined">call</span></span>
+                <div><h3>Call us</h3><p class="small muted">Mon–Sat, 9am – 7pm</p><span class="v dynamic-phone">+91 95820 10747</span></div>
+            </a>
+            <a class="contact-card dynamic-email-link" href="mailto:info@upvcclub.com" data-reveal>
+                <span class="ic"><span class="material-icons-outlined">mail</span></span>
+                <div><h3>Email us</h3><p class="small muted">We reply within a day</p><span class="v dynamic-email">info@upvcclub.com</span></div>
+            </a>
+            <a class="contact-card dynamic-map-link" href="https://maps.google.com/?q=UPVC+Club+Greater+Noida" target="_blank" rel="noopener" data-reveal>
+                <span class="ic"><span class="material-icons-outlined">location_on</span></span>
+                <div><h3>Visit the workshop</h3><p class="small muted dynamic-address">Greater Noida, Uttar Pradesh</p><span class="v">Get directions →</span></div>
+            </a>
+            <a class="contact-card" href="visualizer.html" data-reveal style="background:var(--ink);color:#fff">
+                <span class="ic" style="background:var(--red)"><span class="material-icons-outlined">view_in_ar</span></span>
+                <div><h3>Not sure which style?</h3><p class="small" style="opacity:.7">Preview windows &amp; doors in your room with your camera.</p><span class="v" style="color:#fff">Try at home →</span></div>
+            </a>
+        </div>
+
+        <div class="form-card" data-reveal>
+            <h2 class="h3">Send us a message</h2>
+            <p class="muted mt-s">Tell us about your space — sizes, number of windows or a photo idea.</p>
+            <form class="form mt" id="contactForm" novalidate>
+                <div class="form-row">
+                    <div class="field"><label for="f-name">Your name</label><input class="input" id="f-name" type="text" name="name" required autocomplete="name" placeholder="Your full name"></div>
+                    <div class="field"><label for="f-email">Email address</label><input class="input" id="f-email" type="email" name="email" required autocomplete="email" placeholder="you@example.com"></div>
+                </div>
+                <div class="field">
+                    <label for="phone">Phone number</label>
+                    <input class="input" type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210">
+                    <span class="input-error hidden" id="phone-error">Please enter a valid phone number (10 digits).</span>
+                </div>
+                <div class="field"><label for="f-msg">Message</label><textarea class="input" id="f-msg" name="message" rows="5" required placeholder="Tell us about your requirements…"></textarea></div>
+                <div class="field">
+                    <label for="captcha_answer">Quick check</label>
+                    <div class="captcha">
+                        <span class="captcha-q" id="captcha-question">Loading…</span>
+                        <input class="input" type="number" inputmode="numeric" name="captcha_answer" id="captcha_answer" required placeholder="Answer">
+                        <button type="button" class="icon-btn" id="captcha-refresh" aria-label="New question"><span class="material-icons-outlined">refresh</span></button>
+                    </div>
+                    <input type="hidden" name="captcha_token" id="captcha_token">
+                </div>
+                <div id="form-status" aria-live="polite"></div>
+                <button type="submit" class="btn btn-red btn-block" id="submit-btn"><span class="label">Send enquiry</span> <span class="material-icons-outlined">send</span></button>
+                <p class="small muted text-center">Your details are only used to reply to you. No spam, ever.</p>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- @scripts -->
+<script>
+(function () {
+    const form = document.getElementById("contactForm");
+    const status = document.getElementById("form-status");
+    const btn = document.getElementById("submit-btn");
+    const phone = document.getElementById("phone");
+    const phoneErr = document.getElementById("phone-error");
+
+    // prefill from product / visualizer
+    const qs = new URLSearchParams(location.search);
+    const product = qs.get("product"), config = qs.get("config");
+    if (product || config) {
+        form.message.value = `Hi, I'm interested in ${config || product}. Please share a quote.`;
+    }
+
+    async function loadCaptcha() {
+        document.getElementById("captcha-question").textContent = "Loading…";
+        const data = await fetchCaptcha();
+        if (data) {
+            document.getElementById("captcha-question").textContent = data.question;
+            document.getElementById("captcha_token").value = data.token;
+        } else {
+            document.getElementById("captcha-question").textContent = "Couldn't load";
+        }
+        form.captcha_answer.value = "";
+    }
+    document.getElementById("captcha-refresh").addEventListener("click", loadCaptcha);
+    loadCaptcha();
+
+    const normPhone = (v) => {
+        const d = v.replace(/[^\d+]/g, "");
+        if (/^\+\d{10,15}$/.test(d)) return d;
+        const digits = d.replace(/\D/g, "");
+        if (digits.length === 10) return "+91" + digits;
+        if (digits.length === 12 && digits.startsWith("91")) return "+" + digits;
+        return null;
+    };
+    phone.addEventListener("input", () => phoneErr.classList.add("hidden"));
+
+    function show(kind, msg) {
+        status.innerHTML = `<div class="notice ${kind === "ok" ? "notice-ok" : "notice-err"}"><span class="material-icons-outlined">${kind === "ok" ? "check_circle" : "error_outline"}</span><span></span></div>`;
+        status.querySelector("span:last-child").textContent = msg;
+    }
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        status.innerHTML = "";
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        const ph = normPhone(phone.value);
+        if (!ph) { phoneErr.classList.remove("hidden"); phone.focus(); return; }
+        btn.disabled = true;
+        btn.querySelector(".label").textContent = "Sending…";
+        const res = await submitContactForm({
+            name: form.name.value.trim(), email: form.email.value.trim(), phone: ph, message: form.message.value.trim(),
+            captcha_token: form.captcha_token.value, captcha_answer: form.captcha_answer.value.trim(),
+        });
+        btn.disabled = false;
+        btn.querySelector(".label").textContent = "Send enquiry";
+        if (res.success) {
+            form.reset();
+            show("ok", "Thank you! Your enquiry has been sent — we'll get back to you shortly.");
+            if (typeof gtag === "function") gtag("event", "generate_lead");
+        } else {
+            const errs = res.errors || {};
+            const first = Object.values(errs).flat()[0];
+            show("err", first || res.error || "Something went wrong. Please try again or call us.");
+        }
+        loadCaptcha();
+    });
+})();
+</script>
