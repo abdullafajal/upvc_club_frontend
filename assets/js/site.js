@@ -450,11 +450,12 @@
   };
   /* Free Pexels photos (pexels.com/license) matched by hand to each product
      type, stored in assets/img/stock/. Types without a fitting photo
-     (partition, jali door, ...) keep the rendering. */
+     (e.g. picture window, french door) keep the rendering. */
   const STOCK_BY_SLUG = { "tilt-turn-window": "tilt-turn-window" };
   const STOCK_BY_TYPE = {
     "sliding-window": "sliding-window", "casement-window": "casement-window", "sliding-door": "sliding-door",
     "bifold-door": "bifold-door", balcony: "balcony", shower: "shower", louvers: "louvers",
+    partition: "partition", "jali-door": "jali-door",
   };
   UPVC.stockPhoto = function (product) {
     const key = STOCK_BY_SLUG[product.slug] || STOCK_BY_TYPE[UPVC.productType(product)];

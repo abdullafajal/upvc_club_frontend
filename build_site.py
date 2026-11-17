@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "_src"
-VERSION = "2.0.3"
+VERSION = "2.0.4"
 
 PRELOADER = """<div class="preloader" aria-hidden="true">
     <div class="preloader-brand"><span>UPVC Club</span><span>Windows &amp; Doors</span></div>

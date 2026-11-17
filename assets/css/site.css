@@ -792,3 +792,5 @@ textarea.input { resize: vertical; min-height: 140px; }
 img[src*="stock/shower"] { object-position: 88% 50%; }
 img[src*="stock/sliding-door"] { object-position: 85% 50%; }
 img[src*="stock/bifold-door"] { object-position: 80% 50%; }
+img[src*="stock/jali-door"] { object-position: 62% 50%; }
+img[src*="stock/partition"] { object-position: 20% 50%; }
