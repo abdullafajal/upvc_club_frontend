@@ -45,7 +45,11 @@
 (async function () {
     const grid = document.getElementById("portfolio-grid");
     const filters = document.getElementById("portfolio-filters");
+    const slow = setTimeout(() => grid.insertAdjacentHTML("beforebegin", '<p class="small muted mb" id="pf-slow">Loading projects… this can take a few seconds.</p>'), 2500);
     const [projects, categories] = await Promise.all([fetchPortfolio(), fetchPortfolioCategories()]);
+    clearTimeout(slow);
+    const slowNote = document.getElementById("pf-slow");
+    if (slowNote) slowNote.remove();
     const e = UPVC.esc;
     if (!Array.isArray(projects) || !projects.length) {
         grid.innerHTML = '<div class="empty">New projects are being added. <a class="link-arrow" href="contact.html">Ask us for our portfolio</a></div>';

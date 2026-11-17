@@ -25,11 +25,12 @@
         try { if (sessionStorage.getItem("upvc-curtain")) { document.documentElement.classList.add("curtain-in"); sessionStorage.removeItem("upvc-curtain"); } } catch (e) {}
     </script>
 
+    <link rel="preconnect" href="https://upvc.pythonanywhere.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined&display=block" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/site.css?v=2.0.0">
+    <link rel="stylesheet" href="./assets/css/site.css?v=2.0.1">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXDMJYKD5T"></script>
@@ -224,9 +225,9 @@
 <script src="./assets/vendor/ScrollTrigger.min.js"></script>
 <script src="./assets/vendor/SplitText.min.js"></script>
 <script src="./assets/vendor/lenis.min.js"></script>
-<script src="./assets/js/frames.js?v=2.0.0"></script>
-<script src="./assets/js/api.js?v=2.0.0"></script>
-<script src="./assets/js/site.js?v=2.0.0"></script>
+<script src="./assets/js/frames.js?v=2.0.1"></script>
+<script src="./assets/js/api.js?v=2.0.1"></script>
+<script src="./assets/js/site.js?v=2.0.1"></script>
 <script>
 (function () {
     const grid = document.getElementById("products-grid");
@@ -237,7 +238,9 @@
 
     async function load(cat) {
         grid.setAttribute("aria-busy", "true");
+        const slow = setTimeout(() => { count.textContent = "Loading products… this can take a few seconds."; }, 2500);
         const products = await fetchProducts(cat || null);
+        clearTimeout(slow);
         grid.removeAttribute("aria-busy");
         if (!Array.isArray(products) || !products.length) {
             grid.innerHTML = '<div class="empty"><span class="material-icons-outlined">inventory_2</span>No products in this category yet. <a class="link-arrow" href="contact.html">Ask us</a></div>';

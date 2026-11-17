@@ -53,7 +53,9 @@
 
     async function load(cat) {
         grid.setAttribute("aria-busy", "true");
+        const slow = setTimeout(() => { count.textContent = "Loading products… this can take a few seconds."; }, 2500);
         const products = await fetchProducts(cat || null);
+        clearTimeout(slow);
         grid.removeAttribute("aria-busy");
         if (!Array.isArray(products) || !products.length) {
             grid.innerHTML = '<div class="empty"><span class="material-icons-outlined">inventory_2</span>No products in this category yet. <a class="link-arrow" href="contact.html">Ask us</a></div>';
