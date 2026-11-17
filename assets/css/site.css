@@ -854,3 +854,12 @@ img[data-src] { visibility: hidden; }
   .has-sticky-cta .wa-fab { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   .has-sticky-cta .site-footer { padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); }
 }
+/* Back button on product pages */
+.pd-top { display: flex; align-items: center; gap: 14px; }
+.back-btn {
+  width: 44px; height: 44px; flex: none; border-radius: 50%; display: grid; place-items: center;
+  background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow-1); transition: background-color 0.3s, color 0.3s;
+}
+.back-btn:hover { background: var(--ink); color: var(--white); }
+.back-btn .material-icons-outlined { font-size: 22px; }
+.pd-top .breadcrumb { min-width: 0; }

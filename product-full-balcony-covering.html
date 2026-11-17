@@ -102,9 +102,12 @@
 <main id="main">
 <section class="page-head" style="padding-bottom:clamp(24px,4vw,48px)">
     <div class="container">
-        <nav class="breadcrumb" aria-label="Breadcrumb" data-intro>
+        <div class="pd-top" data-intro>
+            <a href="products.html" class="back-btn" id="back-btn" aria-label="Back to products"><span class="material-icons-outlined" aria-hidden="true">arrow_back</span></a>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="index.html">Home</a><span>/</span><a href="products.html">Products</a><span>/</span><span class="prod-name" aria-current="page">Full Balcony Covering</span>
         </nav>
+        </div>
     </div>
 </section>
 
@@ -298,6 +301,12 @@
 })();
 </script>
 <script type="text/upvc">
+// Back: return to the previous page on this site, otherwise go to the product list
+document.getElementById("back-btn").addEventListener("click", (e) => {
+    try {
+        if (document.referrer && new URL(document.referrer).origin === location.origin && history.length > 1) { e.preventDefault(); history.back(); }
+    } catch (err) { /* fall back to the link */ }
+});
 (async function () {
     const prerendered = document.body.dataset.slug;
     const slug = prerendered || new URLSearchParams(location.search).get("slug");
