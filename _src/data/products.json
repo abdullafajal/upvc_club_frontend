@@ -1,0 +1,242 @@
+[
+ {
+  "id": 2,
+  "name": "Casement Window",
+  "slug": "casement-window",
+  "description": "Side-hung windows that offer maximum ventilation and clear views.",
+  "base_price": "550.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/casement-window_uzFaPSx.jpg",
+  "specifications": {
+   "Lock": "Multi-point",
+   "Glass": "Double Glazing Available",
+   "Hinges": "Friction Stays"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 1,
+   "name": "Windows",
+   "slug": "windows",
+   "description": "Premium UPVC and Aluminium windows for every home.",
+   "image": null,
+   "icon": "window",
+   "product_count": 3
+  }
+ },
+ {
+  "id": 7,
+  "name": "Frameless Shower Cubicle",
+  "slug": "frameless-shower-cubicle",
+  "description": "Premium frameless glass shower enclosures with high-quality fittings.",
+  "base_price": "18000.00",
+  "unit": "set",
+  "image": "https://upvc.pythonanywhere.com/media/products/frameless-shower-cubicle_bItMaxT.jpg",
+  "specifications": {
+   "Glass": "10mm Toughened",
+   "Shape": "L-Shape / Corner",
+   "Hardware": "SS 304 Chrome/Black"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 4,
+   "name": "Glass & Partitions",
+   "slug": "glass-partitions",
+   "description": "Modern glass partitions, shower cubicles, and spider glazing.",
+   "image": null,
+   "icon": "grid_view",
+   "product_count": 2
+  }
+ },
+ {
+  "id": 6,
+  "name": "Full Balcony Covering",
+  "slug": "full-balcony-covering",
+  "description": "Completely enclose your balcony with UPVC framing and glass/panels to protect from dust and rain.",
+  "base_price": "650.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/full-balcony-covering_ulYp4iR.jpg",
+  "specifications": {
+   "Roof": "Not Included",
+   "Warranty": "10 Years",
+   "Structure": "Reinforced UPVC"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 3,
+   "name": "Balcony Solutions",
+   "slug": "balcony-solutions",
+   "description": "Complete balcony covering and safety solutions.",
+   "image": null,
+   "icon": "balcony",
+   "product_count": 1
+  }
+ },
+ {
+  "id": 8,
+  "name": "Office Glass Partition",
+  "slug": "office-glass-partition",
+  "description": "Toughened glass partitions for modern office cabins and meeting rooms.",
+  "base_price": "350.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/office-glass-partition_QIwvm2B.jpg",
+  "specifications": {
+   "Door": "Patch Fitting / Stile",
+   "Glass": "12mm Toughened",
+   "Profile": "Slim Aluminium"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 4,
+   "name": "Glass & Partitions",
+   "slug": "glass-partitions",
+   "description": "Modern glass partitions, shower cubicles, and spider glazing.",
+   "image": null,
+   "icon": "grid_view",
+   "product_count": 2
+  }
+ },
+ {
+  "id": 10,
+  "name": "Safety Jali Door",
+  "slug": "safety-jali-door",
+  "description": "Heavy duty safety door with SS mesh for security and ventilation.",
+  "base_price": "550.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/safety-jali-door_UEFrgPK.jpg",
+  "specifications": {
+   "Mesh": "SS 304 High Gauge",
+   "Frame": "UPVC/Aluminium",
+   "Grill": "Optional"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 6,
+   "name": "Safety & Mesh",
+   "slug": "safety-mesh",
+   "description": "Mosquito nets and safety grills.",
+   "image": null,
+   "icon": "shield",
+   "product_count": 1
+  }
+ },
+ {
+  "id": 5,
+  "name": "Slide & Fold Door",
+  "slug": "slide-fold-door",
+  "description": "Bi-fold doors that open up the entire wall for seamless indoor-outdoor living.",
+  "base_price": "1200.00",
+  "unit": "sqft",
+  "image": null,
+  "specifications": {
+   "Glass": "Toughened Only",
+   "Max Width": "6 Meters",
+   "Operation": "Top/Bottom Rolling"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 2,
+   "name": "Doors",
+   "slug": "doors",
+   "description": "Elegant and secure entryways and balcony doors.",
+   "image": null,
+   "icon": "door_front",
+   "product_count": 2
+  }
+ },
+ {
+  "id": 3,
+  "name": "Tilt & Turn Window",
+  "slug": "tilt-turn-window",
+  "description": "Versatile european style windows that tilt for ventilation and turn for cleaning.",
+  "base_price": "850.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/tilt-turn-window_N1Zl058.jpg",
+  "specifications": {
+   "Glass": "DGU Recommended",
+   "Hardware": "German Roto/Siegenia",
+   "Sound Proofing": "Excellent"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 1,
+   "name": "Windows",
+   "slug": "windows",
+   "description": "Premium UPVC and Aluminium windows for every home.",
+   "image": null,
+   "icon": "window",
+   "product_count": 3
+  }
+ },
+ {
+  "id": 4,
+  "name": "UPVC Sliding Door",
+  "slug": "upvc-sliding-door",
+  "description": "Large span sliding doors for balconies and patios.",
+  "base_price": "500.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/upvc-sliding-door_IAu1Y9T.jpg",
+  "specifications": {
+   "Glass": "6mm - 12mm",
+   "Track": "2/3 Track",
+   "Threshold": "Low/Flush"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 2,
+   "name": "Doors",
+   "slug": "doors",
+   "description": "Elegant and secure entryways and balcony doors.",
+   "image": null,
+   "icon": "door_front",
+   "product_count": 2
+  }
+ },
+ {
+  "id": 1,
+  "name": "UPVC Sliding Window",
+  "slug": "upvc-sliding-window",
+  "description": "Classic sliding windows with smooth operation and excellent insulation.",
+  "base_price": "450.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/upvc-sliding-window_DN4JiBQ.jpg",
+  "specifications": {
+   "Mesh": "SS 304 (Optional)",
+   "Glass": "5mm/6mm Toughened",
+   "Profile": "Multichamber UPVC"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 1,
+   "name": "Windows",
+   "slug": "windows",
+   "description": "Premium UPVC and Aluminium windows for every home.",
+   "image": null,
+   "icon": "window",
+   "product_count": 3
+  }
+ },
+ {
+  "id": 9,
+  "name": "WPC Louvers",
+  "slug": "wpc-louvers",
+  "description": "Wood Plastic Composite louvers for exterior elevation and interior highlight walls.",
+  "base_price": "180.00",
+  "unit": "sqft",
+  "image": "https://upvc.pythonanywhere.com/media/products/wpc-louvers_bmJWPlB.jpg",
+  "specifications": {
+   "Texture": "Wood Grain",
+   "Material": "WPC",
+   "Application": "Indoor/Outdoor"
+  },
+  "is_featured": true,
+  "category": {
+   "id": 5,
+   "name": "Wall & Ceiling Decor",
+   "slug": "wall-ceiling-decor",
+   "description": "Decorative profiles, louvers, and panels.",
+   "image": null,
+   "icon": "wallpaper",
+   "product_count": 1
+  }
+ }
+]

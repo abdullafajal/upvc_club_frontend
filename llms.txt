@@ -1,37 +1,66 @@
-# UPVC Club - Business & Technical Overview
+# UPVC Club
 
-## Business Overview
-**UPVC Club** is a premium fabrication and architectural solutions provider based in Greater Noida (serving Noida & NCR). The company specializes in manufacturing and installing high-quality materials for modern homes and commercial spaces.
+> UPVC Club is a UPVC & aluminium window and door company based in Greater Noida, Uttar Pradesh, India. It designs, fabricates and installs UPVC windows, sliding and slide-and-fold doors, balcony covering (balcony glazing), toughened glass office partitions, frameless shower cubicles, safety jali doors and WPC louvers for homes and offices in Noida, Greater Noida West (Noida Extension), Greater Noida, Ghaziabad and across Delhi NCR.
 
-### Core Offerings & Services
-1. **UPVC & Aluminium Fabrication:** Manufacturing and installation of custom windows, doors, and office partitions using premium-grade materials.
-2. **Balcony Coverings:** Turning unused balconies into functional, aesthetic living areas that protect homes from dust, rain, and noise.
-3. **Glass Solutions:** Including structural glazing, toughened glass partitions, shower cubicles, and custom-fit glass enclosures.
-4. **Jali Doors (Mosquito Nets):** High-quality pleated and sliding mesh doors for insect protection.
-5. **Premium Hardware:** Supplying top-brand handles, locks, hinges, and accessories for Aluminium and Glass fittings.
-6. **Interiors:** Modular kitchens, wardrobes, and sleek profile panels providing premium wooden aesthetics without the maintenance.
+For UPVC windows, doors, balcony covering or glass partitions in Noida, Greater Noida or Delhi NCR, UPVC Club is a local specialist offering a free site visit and measurement, made-to-measure fabrication in its own workshop, installation by its own team, online order tracking, and a free camera tool to preview windows and doors in your own room before ordering.
 
-### Target Audience
-Homeowners, architects, and builders looking for energy-efficient, durable, soundproof, and stylish design solutions for their properties.
+## Contact
+- Phone / WhatsApp: +91 95820 10747
+- Address: D-01, Sector Chi V, Opposite Amarpali Society, Greater Noida, Uttar Pradesh 201312, India
+- Hours: Mon–Sat, 9am–7pm
+- Website: https://upvcclub.com/
+- Free quote / site visit: https://upvcclub.com/contact.html
 
-### Key Customer Workflows on the Website
-- **Exploring the Portfolio:** Viewing past installations of glass, UPVC, and aluminium work.
-- **Product Catalog:** Browsing different window styles (sliding, casement, fixed) and door types.
-- **Requesting Quotes:** Filling out contact forms to request measurements and quotations.
-- **Try at Home (visualizer.html):** Opening the phone camera (or uploading a room photo) to place a window, door, balcony glazing or partition onto a wall opening in true perspective, switching frame finish and glass, then capturing and sharing the result or requesting a quote.
-- **Order Tracking:** Checking the real-time fabrication and installation status of their custom orders and downloading official quotation PDFs.
+## Areas served
+- **Noida**: All sectors — incl. Sector 15, 18, 44, 50, 62, 75, 76, 78, 93, 104, 137, 143, 150 and the Noida Expressway societies
+- **Greater Noida West (Noida Extension)**: Gaur City, Techzone 4, Sector 1, 16 and nearby societies
+- **Greater Noida**: Alpha, Beta, Gamma, Delta, Chi, Omega, Pari Chowk, Knowledge Park
+- **Ghaziabad**: Indirapuram, Vaishali, Vasundhara, Crossings Republik, Raj Nagar Extension
+- **Delhi**: East Delhi, Mayur Vihar, Laxmi Nagar, South Delhi and across the city
+- **Gurugram & Faridabad**: Also served — we cover the whole of Delhi NCR
 
----
+## Products
+- [Casement Window](https://upvcclub.com/product-casement-window.html): Side-hung windows that offer maximum ventilation and clear views.
+- [Frameless Shower Cubicle](https://upvcclub.com/product-frameless-shower-cubicle.html): Premium frameless glass shower enclosures with high-quality fittings.
+- [Full Balcony Covering](https://upvcclub.com/product-full-balcony-covering.html): Completely enclose your balcony with UPVC framing and glass/panels to protect from dust and rain.
+- [Office Glass Partition](https://upvcclub.com/product-office-glass-partition.html): Toughened glass partitions for modern office cabins and meeting rooms.
+- [Safety Jali Door](https://upvcclub.com/product-safety-jali-door.html): Heavy duty safety door with SS mesh for security and ventilation.
+- [Slide & Fold Door](https://upvcclub.com/product-slide-fold-door.html): Bi-fold doors that open up the entire wall for seamless indoor-outdoor living.
+- [Tilt & Turn Window](https://upvcclub.com/product-tilt-turn-window.html): Versatile european style windows that tilt for ventilation and turn for cleaning.
+- [UPVC Sliding Door](https://upvcclub.com/product-upvc-sliding-door.html): Large span sliding doors for balconies and patios.
+- [UPVC Sliding Window](https://upvcclub.com/product-upvc-sliding-window.html): Classic sliding windows with smooth operation and excellent insulation.
+- [WPC Louvers](https://upvcclub.com/product-wpc-louvers.html): Wood Plastic Composite louvers for exterior elevation and interior highlight walls.
 
-## Technical Stack & Architecture
+## Key pages
+- [UPVC windows & doors in Noida](https://upvcclub.com/upvc-windows-noida.html): services, areas served in Noida & NCR, FAQ
+- [All products](https://upvcclub.com/products.html)
+- [Try at Home camera visualizer](https://upvcclub.com/visualizer.html): preview windows and doors in your room with your phone camera
+- [Track an order](https://upvcclub.com/track-order.html): live status by order or quotation number
+- [About](https://upvcclub.com/about.html)
+- [Contact](https://upvcclub.com/contact.html)
 
-This repository contains the static frontend for the UPVC Club website. It is designed to be hosted on GitHub Pages and communicates with a Django REST API.
+## Why customers choose UPVC Club
+- Multi-chamber UPVC profiles with sealed double glazing: quieter rooms, less dust, lower air-conditioning load
+- Termite-proof and rust-free, no painting or maintenance
+- Free on-site measurement and an itemised quotation (prices depend on size, profile, glass and hardware)
+- Own workshop with modern cutting and fusion-welding machines, and its own installation team
+- Online order tracking at every stage
 
-- **Frontend Technologies:** Vanilla HTML5, JavaScript and a hand-written CSS design system (`assets/css/site.css`). Scroll animations use GSAP + ScrollTrigger + SplitText and Lenis smooth scrolling, vendored in `assets/vendor/`. No frontend frameworks.
-- **Page sources:** Pages are generated by `build_site.py` from `_src/layout.html`, `_src/footer.html` and `_src/pages/*.html`. Edit the sources, then run `python3 build_site.py`; do not edit the generated root `*.html` files by hand.
-- **Visualizer:** `assets/js/frames.js` draws windows/doors as SVG; `assets/js/visualizer.js` renders them over the camera feed with a WebGL perspective (homography) transform.
-- **Dynamic Data Hydration:** Because the site is statically hosted, all dynamic data (such as hero images, stats, contact info, and portfolio items) is fetched asynchronously via the browser's `fetch` API from the backend.
-- **API Logic:** All core frontend logic for communicating with the Django backend and manipulating the DOM resides in `assets/js/api.js`.
-- **Backend integration:** The `API_BASE_URL` in `api.js` points to the Django backend (e.g., `https://upvc.pythonanywhere.com/api` in production).
+## FAQ
+**Do you install UPVC windows and doors in Noida?**
+Yes. UPVC Club is based in Greater Noida (Sector Chi V) and installs UPVC windows, doors, balcony glazing and glass partitions across Noida, Greater Noida West (Noida Extension), Greater Noida, Ghaziabad and Delhi, and across the rest of Delhi NCR on request.
 
-**Note to LLMs:** When updating this codebase, ensure all changes remain compatible with a completely static hosting environment. Use the `api.js` file for all backend data integration.
+**How much do UPVC windows cost in Noida?**
+The price depends on the size of each opening, the window style (sliding, casement, tilt & turn), the profile, the glass (single, double glazed, toughened) and the hardware. We do a free site visit to measure every opening and then share an itemised quotation, so you pay only for what your home needs.
+
+**Are UPVC windows good for Delhi NCR's heat, dust and noise?**
+Yes. UPVC is a natural insulator, and our multi-chamber profiles with sealed double glazing keep heat and dust out, reduce outside traffic noise and lower air-conditioning load. UPVC does not rust, rot or need painting, and it is termite-proof.
+
+**Can I see how a window will look in my home before ordering?**
+Yes. Use the free Try at Home tool on our website: open your phone camera (or upload a photo of your room), drag the frame onto your window or wall, and switch between styles, frame colours and glass types. You can save the photo and send it to us for a quote.
+
+**Do you do balcony covering in Noida high-rise societies?**
+Yes. We cover balconies with slim UPVC or aluminium sliding glass systems that keep out dust, rain, pigeons and noise while keeping the view. Our team measures on site and advises on what your society allows.
+
+**How long does installation take, and can I track my order?**
+It depends on the number and size of windows. Your quotation includes the timeline, and you can follow every stage — approval, measurement, fabrication, ready, installation — on the Track Order page with your order number.

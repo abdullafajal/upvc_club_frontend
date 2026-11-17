@@ -3,55 +3,101 @@
    <url>
       <loc>https://upvcclub.com/</loc>
       <lastmod>2026-11-17</lastmod>
-      <changefreq>weekly</changefreq>
       <priority>1.0</priority>
    </url>
    <url>
       <loc>https://upvcclub.com/about.html</loc>
       <lastmod>2026-11-17</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://upvcclub.com/products.html</loc>
-      <lastmod>2026-11-17</lastmod>
-      <changefreq>weekly</changefreq>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://upvcclub.com/visualizer.html</loc>
-      <lastmod>2026-11-17</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://upvcclub.com/portfolio.html</loc>
-      <lastmod>2026-11-17</lastmod>
-      <changefreq>weekly</changefreq>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://upvcclub.com/track-order.html</loc>
-      <lastmod>2026-11-17</lastmod>
-      <changefreq>weekly</changefreq>
       <priority>0.7</priority>
    </url>
    <url>
       <loc>https://upvcclub.com/contact.html</loc>
       <lastmod>2026-11-17</lastmod>
-      <changefreq>monthly</changefreq>
       <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/portfolio.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.7</priority>
    </url>
    <url>
       <loc>https://upvcclub.com/privacy-policy.html</loc>
       <lastmod>2026-11-17</lastmod>
-      <changefreq>yearly</changefreq>
       <priority>0.3</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-casement-window.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-frameless-shower-cubicle.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-full-balcony-covering.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-office-glass-partition.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-safety-jali-door.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-slide-fold-door.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-tilt-turn-window.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-upvc-sliding-door.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-upvc-sliding-window.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/product-wpc-louvers.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/products.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.9</priority>
    </url>
    <url>
       <loc>https://upvcclub.com/terms.html</loc>
       <lastmod>2026-11-17</lastmod>
-      <changefreq>yearly</changefreq>
       <priority>0.3</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/track-order.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.5</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/upvc-windows-noida.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.95</priority>
+   </url>
+   <url>
+      <loc>https://upvcclub.com/visualizer.html</loc>
+      <lastmod>2026-11-17</lastmod>
+      <priority>0.8</priority>
    </url>
 </urlset>

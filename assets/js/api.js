@@ -85,7 +85,7 @@ async function fetchTrackingData(query) {
 }
 
 /* Populate phone, email, address, images and stats from site settings. */
-document.addEventListener("DOMContentLoaded", async () => {
+async function hydrateSettings() {
   const settings = await fetchSiteSettings();
   if (!settings || typeof settings !== "object") return;
   const each = (sel, fn) => document.querySelectorAll(sel).forEach(fn);
@@ -135,4 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   document.dispatchEvent(new CustomEvent("upvc:settings", { detail: settings }));
-});
+}
+// scripts may be loaded after DOMContentLoaded (see the loader in layout.html)
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", hydrateSettings);
+else hydrateSettings();

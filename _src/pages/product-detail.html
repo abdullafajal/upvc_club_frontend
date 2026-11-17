@@ -1,10 +1,10 @@
 <!--
-{"title": "Product Details | UPVC Club", "description": "Specifications, pricing and finishes for UPVC Club windows and doors. Preview the product in your room with your phone camera.", "out": "product-detail.html", "body_class": "has-sticky-cta"}
+{"title": "Product Details | UPVC Club", "description": "Specifications, pricing and finishes for UPVC Club windows and doors. Preview the product in your room with your phone camera.", "out": "product-detail.html", "body_class": "has-sticky-cta", "robots": "noindex, follow", "crumb": "Product"}
 -->
 <section class="page-head" style="padding-bottom:clamp(24px,4vw,48px)">
     <div class="container">
-        <nav class="breadcrumb" aria-label="Breadcrumb" data-reveal data-reveal-now>
-            <a href="index.html">Home</a><span>/</span><a href="products.html">Products</a><span>/</span><span class="prod-name" aria-current="page">Loading…</span>
+        <nav class="breadcrumb" aria-label="Breadcrumb" data-intro>
+            <a href="index.html">Home</a><span>/</span><a href="products.html">Products</a><span>/</span><span class="prod-name" aria-current="page">[[p_name]]</span>
         </nav>
     </div>
 </section>
@@ -12,7 +12,7 @@
 <section style="padding-bottom:clamp(64px,8vw,120px)">
     <div class="container pd">
         <div>
-            <div class="pd-media" id="pd-photo" data-img-reveal hidden></div>
+            <div class="pd-media" id="pd-photo" data-img-reveal [[p_photo_hidden]]>[[p_photo]]</div>
             <div class="pd-media" id="pd-media" data-img-reveal></div>
             <div class="flex wrap between center gap mt" data-reveal>
                 <div>
@@ -24,15 +24,15 @@
         </div>
 
         <div class="pd-info">
-            <span class="eyebrow" id="prod-cat" data-reveal data-reveal-now>Product</span>
-            <h1 class="h2 mt prod-name" id="prod-title" data-reveal data-reveal-now>Loading…</h1>
-            <div class="pd-desc mt" id="prod-desc" data-reveal data-reveal-now></div>
-            <div class="price-ask mt" data-reveal data-reveal-now>
+            <span class="eyebrow" id="prod-cat" data-intro>[[p_cat]]</span>
+            <h1 class="h2 mt prod-name" id="prod-title" data-intro>[[p_name]]</h1>
+            <div class="pd-desc mt" id="prod-desc" data-intro>[[p_desc]]</div>
+            <div class="price-ask mt" data-intro>
                 <span class="material-icons-outlined">request_quote</span>
                 <div><b>Price on request</b><span class="small">Made to your exact size and finish — get a free, itemised quote after a site visit.</span></div>
             </div>
 
-            <div class="pd-actions mt-l" data-reveal data-reveal-now>
+            <div class="pd-actions mt-l" data-intro>
                 <a href="visualizer.html" class="btn btn-try btn-block js-try"><span class="material-icons-outlined">photo_camera</span> See it in your home</a>
                 <a href="contact.html" class="btn btn-block" id="quote-link">Get a quote <span class="material-icons-outlined arrow">arrow_forward</span></a>
                 <a href="tel:+919582010747" class="btn btn-ghost btn-block dynamic-phone-link"><span class="material-icons-outlined">call</span> Call an expert</a>
@@ -46,7 +46,7 @@
 
             <div class="mt-l" id="specs-wrap" data-reveal>
                 <h2 class="h4 mb">Specifications</h2>
-                <table class="specs"><tbody id="prod-specs"></tbody></table>
+                <table class="specs"><tbody id="prod-specs">[[p_specs]]</tbody></table>
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
 <section class="section bg-paper-2">
     <div class="container">
         <h2 class="h2 mb-l" data-split>You may also <span class="serif">like</span></h2>
-        <div class="products-grid" id="prod-related"></div>
+        <div class="products-grid" id="prod-related">[[p_related]]</div>
     </div>
 </section>
 
@@ -66,10 +66,12 @@
 <!-- @scripts -->
 <script>
 (async function () {
-    const slug = new URLSearchParams(location.search).get("slug");
+    const prerendered = document.body.dataset.slug;
+    const slug = prerendered || new URLSearchParams(location.search).get("slug");
     const setName = (t) => document.querySelectorAll(".prod-name").forEach((el) => (el.textContent = t));
     if (!slug) { setName("Product not found"); return; }
     const p = await fetchProductDetail(slug);
+    if (!p && prerendered) return; // keep the pre-rendered content if the API is unreachable
     if (!p) {
         setName("Product not found");
         document.getElementById("prod-desc").innerHTML = '<p>This product may have been removed. <a class="link-arrow" href="products.html">Browse all products</a></p>';
@@ -90,7 +92,7 @@
     if (photo) {
         // real-world photo first, the configurable rendering below it
         const box = document.getElementById("pd-photo");
-        box.innerHTML = `<img src="${UPVC.esc(photo)}" alt="${UPVC.esc(p.name)}">`;
+        box.innerHTML = UPVC.photoTag(p, { eager: true, big: true, sizes: "(min-width: 960px) 55vw, 100vw" });
         box.hidden = false;
         media.classList.add("mt");
         media.style.aspectRatio = "16 / 11";
@@ -116,6 +118,7 @@
     const specs = p.specifications && typeof p.specifications === "object" ? Object.entries(p.specifications) : [];
     if (specs.length) {
         const tb = document.getElementById("prod-specs");
+        tb.textContent = "";
         specs.forEach(([k, v]) => {
             const tr = document.createElement("tr");
             const th = document.createElement("th"); th.textContent = k.replace(/_/g, " ");

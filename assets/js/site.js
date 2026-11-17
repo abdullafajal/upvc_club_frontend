@@ -230,7 +230,7 @@
       el.classList.add("fill-words");
       const words = wrapWords(el);
       gsap.to(words, {
-        opacity: 1, stagger: 0.1, ease: "none",
+        color: getComputedStyle(el).color, stagger: 0.1, ease: "none",
         scrollTrigger: { trigger: el, start: "top 80%", end: "bottom 45%", scrub: 0.6 },
       });
     });
@@ -402,9 +402,7 @@
   /* Hero intro (after preloader) */
   function heroIntro() {
     if (!hasGSAP || reduced) return;
-    $$("[data-intro]").forEach((el, i) => {
-      gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "expo.out", delay: 0.35 + i * 0.08 });
-    });
+    /* [data-intro] elements are animated in CSS */
   }
 
   /* Phone demo on homepage: animated swatches + scan line */
@@ -459,21 +457,29 @@
   };
   UPVC.stockPhoto = function (product) {
     const key = STOCK_BY_SLUG[product.slug] || STOCK_BY_TYPE[UPVC.productType(product)];
-    return key ? `assets/img/stock/${key}.jpg` : null;
+    return key ? `assets/img/stock/${key}` : null;
+  };
+  /* <img> markup for a product photo: uploaded photo, or a responsive stock WebP */
+  UPVC.photoTag = function (product, opts) {
+    opts = opts || {};
+    const alt = UPVC.esc(product.name);
+    const lazy = opts.eager ? 'fetchpriority="high"' : 'loading="lazy"';
+    if (USE_PRODUCT_PHOTOS && product.image) return `<img src="${UPVC.esc(product.image)}" alt="${alt}" ${lazy} decoding="async">`;
+    const base = UPVC.stockPhoto(product);
+    if (!base) return "";
+    if (!opts.big) return `<img src="${base}-640.webp" width="640" height="800" alt="${alt}" ${lazy} decoding="async">`;
+    return `<img src="${base}-640.webp" srcset="${base}-640.webp 640w, ${base}-1200.webp 1200w" sizes="${opts.sizes || "100vw"}" width="640" height="800" alt="${alt}" ${lazy} decoding="async">`;
   };
   UPVC.productPhoto = (product) => (USE_PRODUCT_PHOTOS && product.image) || UPVC.stockPhoto(product);
-  UPVC.productMedia = function (product) {
-    const src = UPVC.productPhoto(product);
-    return src
-      ? `<img src="${UPVC.esc(src)}" alt="${UPVC.esc(product.name)}" loading="lazy" decoding="async">`
-      : UPVC.productScene(product);
-  };
+  UPVC.productMedia = (product) => UPVC.photoTag(product) || UPVC.productScene(product);
   UPVC.quoteUrl = (product, extra) => "contact.html?product=" + encodeURIComponent(product.name) + (extra ? "&config=" + encodeURIComponent(extra) : "");
   UPVC.esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+  /* Products known at build time have a static, crawlable page */
+  UPVC.productUrl = (p) => ((window.UPVC_STATIC || []).indexOf(p.slug) !== -1 ? `product-${p.slug}.html` : "product-detail.html?slug=" + encodeURIComponent(p.slug));
   UPVC.productCard = function (p) {
     const e = UPVC.esc;
-    const url = "product-detail.html?slug=" + encodeURIComponent(p.slug);
+    const url = UPVC.productUrl(p);
     const blurb = (p.description || "").split(/[.\n]/)[0];
     return `<article class="pcard" data-reveal>
         <div class="pcard-media">
@@ -488,6 +494,22 @@
         <a class="pcard-quote" href="${UPVC.quoteUrl(p)}"><span class="material-icons-outlined">request_quote</span>Price on request · <b>Get a quote</b></a>
       </article>`;
   };
+
+  /* Images marked data-src load when they come near the viewport */
+  function initDeferredImages() {
+    const imgs = $$("img[data-src]");
+    if (!imgs.length) return;
+    const load = (img) => {
+      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+      img.src = img.dataset.src;
+      img.removeAttribute("data-src");
+    };
+    if (!("IntersectionObserver" in window)) { imgs.forEach(load); return; }
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { load(e.target); io.unobserve(e.target); }
+    }), { rootMargin: "600px 600px" });
+    imgs.forEach((img) => io.observe(img));
+  }
 
   /* Public: animate newly injected nodes */
   UPVC.animate = function (root) {
@@ -504,6 +526,7 @@
     }
     initLenis();
     initChrome();
+    initDeferredImages();
     initTransitions();
     initMarquees();
     initPhoneDemo();

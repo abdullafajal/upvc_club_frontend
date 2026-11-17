@@ -1,4 +1,4 @@
-const CACHE_NAME = 'upvc-club-cache-v7';
+const CACHE_NAME = 'upvc-club-cache-v9';
 
 // Core assets cached on install (versioned via ?v= in the HTML)
 const PRECACHE_ASSETS = [
@@ -6,19 +6,19 @@ const PRECACHE_ASSETS = [
   './index.html',
   './visualizer.html',
   './manifest.json',
-  './assets/css/site.css?v=2.0.5',
-  './assets/css/visualizer.css?v=2.0.5',
-  './assets/js/api.js?v=2.0.5',
-  './assets/js/site.js?v=2.0.5',
-  './assets/js/frames.js?v=2.0.5',
-  './assets/js/visualizer.js?v=2.0.5',
+  './assets/css/site.css?v=2.1.0',
+  './assets/css/visualizer.css?v=2.1.0',
+  './assets/js/api.js?v=2.1.0',
+  './assets/js/site.js?v=2.1.0',
+  './assets/js/frames.js?v=2.1.0',
+  './assets/js/visualizer.js?v=2.1.0',
   './assets/vendor/gsap.min.js',
   './assets/vendor/ScrollTrigger.min.js',
   './assets/vendor/SplitText.min.js',
   './assets/vendor/lenis.min.js',
-  './assets/icons/logo-navy-red.png',
-  './assets/img/stock/windows-home.jpg',
-  './assets/img/stock/sliding-door.jpg'
+  './assets/icons/logo-68.webp',
+  './assets/fonts/manrope-variable.woff2',
+  './assets/fonts/material-icons-outlined-subset.woff2'
 ];
 
 self.addEventListener('install', event => {
