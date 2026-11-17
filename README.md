@@ -51,3 +51,14 @@ The camera needs a secure context: it works on `https://` (GitHub Pages) and on 
 ## Security
 
 Contact form submissions are validated by the backend using a time-stamped signed math CAPTCHA. Visualizer photos never leave the device.
+
+## Photo credits
+
+Product and category photos in `assets/img/stock/` are free stock photos from [Pexels](https://www.pexels.com/license/) (no attribution required), chosen to illustrate each product type — they are not UPVC Club installations. Pexels photo IDs: sliding-window 1457842, casement-window 2343465, tilt-turn-window 6588581, sliding-door 1571463, bifold-door 7587880, balcony 6527069, shower 7546320, louvers 3316926, partition 6585752, jali-door 279810, windows-home 6283961. Replace them with photos of your own work when available (or upload product photos in the admin and set `USE_PRODUCT_PHOTOS = true` in `assets/js/site.js`).
+
+## SEO, AI discoverability & performance
+
+- `python3 build_site.py` fetches the product catalogue from the API (cached in `_src/data/products.json` for offline builds) and pre-renders it: one static page per product (`product-<slug>.html`), and the product grids on `products.html` and the home page. Search engines and AI crawlers that don't run JavaScript still see every product. **Re-run the build and push after adding products in the admin.**
+- Business facts (name, phone, address, hours, areas served, services, FAQ) live in `_src/business.json`. They feed the JSON-LD (`LocalBusiness`, `WebSite`, `BreadcrumbList`, `FAQPage`, `ItemList`, `Product`), the FAQ and areas sections, and `llms.txt`.
+- `upvc-windows-noida.html` is the Noida landing page. `robots.txt` explicitly allows search and AI crawlers. `sitemap.xml` and `llms.txt` are regenerated on every build.
+- Performance: fonts are self-hosted (variable Manrope, plus subset serif and icon fonts, about 42 KB in all). Images are responsive WebP. Scripts load after the first paint, and above-the-fold motion is CSS-only. Images in the admin settings (home collection cards, about hero) are stored as compressed copies in `assets/img/site/`; replace those files to change them.

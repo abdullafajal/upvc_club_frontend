@@ -1,28 +1,25 @@
 <!--
-{"title": "Products — UPVC Windows, Doors, Balcony Glazing & Partitions | UPVC Club", "description": "Explore UPVC & aluminium sliding windows, casement windows, doors, balcony coverings, glass partitions and jali doors. Try any of them in your home with your camera.", "out": "products.html"}
+{"title": "UPVC Windows, Doors & Balcony Glazing in Noida | Products – UPVC Club", "description": "Sliding & casement UPVC windows, sliding and slide-and-fold doors, balcony covering, glass partitions, shower cubicles, jali doors and WPC louvers — made to measure for homes in Noida & Delhi NCR.", "out": "products.html", "schema": ["products"], "crumb": "Products"}
 -->
 <section class="page-head">
     <div class="container">
-        <span class="eyebrow" data-reveal data-reveal-now>Collection</span>
-        <h1 class="h1 mt balance" data-split data-split-now>Built for <span class="serif">every</span> opening.</h1>
+        <span class="eyebrow" data-intro>Collection</span>
+        <h1 class="h1 mt balance" data-intro-title>Built for <span class="serif">every</span> opening.</h1>
         <div class="page-head-row">
-            <p class="lead" data-reveal data-reveal-now data-delay="0.2">Precision UPVC &amp; aluminium systems with German hardware — priced per square foot, fabricated in our own workshop.</p>
-            <a href="visualizer.html" class="btn btn-red magnetic" data-reveal data-reveal-now data-delay="0.3"><span class="material-icons-outlined">view_in_ar</span> Try in your room</a>
+            <p class="lead" data-intro style="--d:0.2s">Precision UPVC &amp; aluminium systems with German hardware — priced per square foot, fabricated in our own workshop.</p>
+            <a href="visualizer.html" class="btn btn-red magnetic" data-intro style="--d:0.3s"><span class="material-icons-outlined">view_in_ar</span> Try in your room</a>
         </div>
     </div>
 </section>
 
 <section class="section-s" style="padding-top:0">
     <div class="container">
-        <div class="filter-bar" id="categories-list" role="tablist" aria-label="Product categories">
-            <a href="products.html" class="chip is-active" data-cat="">All products</a>
-        </div>
+        <nav class="filter-bar" id="categories-list" aria-label="Product categories">
+            <a href="products.html" class="chip is-active" data-cat="" aria-current="page">All products</a>
+        </nav>
+        <h2 class="sr-only">All products</h2>
         <p class="small muted mt" id="products-count" aria-live="polite"></p>
-        <div class="products-grid mt" id="products-grid">
-            <div class="skeleton" style="aspect-ratio:4/5"></div>
-            <div class="skeleton" style="aspect-ratio:4/5"></div>
-            <div class="skeleton" style="aspect-ratio:4/5"></div>
-            <div class="skeleton" style="aspect-ratio:4/5"></div>
+        <div class="products-grid mt" id="products-grid">{{products_grid}}
         </div>
     </div>
 </section>
@@ -53,7 +50,9 @@
 
     async function load(cat) {
         grid.setAttribute("aria-busy", "true");
+        const slow = setTimeout(() => { count.textContent = "Loading products… this can take a few seconds."; }, 2500);
         const products = await fetchProducts(cat || null);
+        clearTimeout(slow);
         grid.removeAttribute("aria-busy");
         if (!Array.isArray(products) || !products.length) {
             grid.innerHTML = '<div class="empty"><span class="material-icons-outlined">inventory_2</span>No products in this category yet. <a class="link-arrow" href="contact.html">Ask us</a></div>';
@@ -69,7 +68,7 @@
         list.querySelectorAll(".chip").forEach((c) => {
             const on = (c.dataset.cat || "") === current;
             c.classList.toggle("is-active", on);
-            c.setAttribute("aria-selected", String(on));
+            if (on) c.setAttribute("aria-current", "page"); else c.removeAttribute("aria-current");
         });
     }
 
@@ -92,7 +91,7 @@
         const cats = await fetchCategories();
         if (Array.isArray(cats)) {
             list.insertAdjacentHTML("beforeend", cats.map((c) =>
-                `<a href="products.html?category=${encodeURIComponent(c.slug)}" class="chip" role="tab" data-cat="${UPVC.esc(c.slug)}">${c.icon ? `<span class="material-icons-outlined" style="font-size:18px">${UPVC.esc(c.icon)}</span>` : ""}${UPVC.esc(c.name)}${c.product_count != null ? ` <span style="opacity:.5">${c.product_count}</span>` : ""}</a>`).join(""));
+                `<a href="products.html?category=${encodeURIComponent(c.slug)}" class="chip" data-cat="${UPVC.esc(c.slug)}">${c.icon ? `<span class="material-icons-outlined" style="font-size:18px">${UPVC.esc(c.icon)}</span>` : ""}${UPVC.esc(c.name)}${c.product_count != null ? ` <span style="opacity:.5">${c.product_count}</span>` : ""}</a>`).join(""));
         }
         setActive();
     })();

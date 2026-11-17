@@ -158,3 +158,14 @@
   .viz-shutter::before { width: 46px; height: 46px; }
   .viz-quote { padding: 11px 13px; }
 }
+
+/* Start screen: hide the option panel so the buttons are never cut off, and allow scrolling on short screens */
+.viz.is-start .viz-panel { display: none; }
+.viz-start { overflow-y: auto; place-items: safe center; -webkit-overflow-scrolling: touch; }
+.viz-start-inner { padding-block: 8px 24px; }
+@media (max-height: 760px) {
+  .viz-start-art { width: 120px; height: 100px; }
+  .viz-start h1 { font-size: 30px; }
+  .viz-start-inner { gap: 10px; }
+  .viz-start .btn { padding-block: 13px; }
+}

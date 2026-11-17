@@ -18,7 +18,7 @@
   --line: rgba(11, 27, 51, 0.12);
   --line-strong: rgba(11, 27, 51, 0.22);
 
-  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Manrope", "Manrope Fallback", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
 
   --radius-s: 12px;
@@ -37,6 +37,19 @@
 
   color-scheme: light;
 }
+
+/* Self-hosted fonts (no third-party requests on the critical path) */
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: swap; src: url("../fonts/manrope-variable.woff2") format("woff2-variations"), url("../fonts/manrope-variable.woff2") format("woff2"); }
+@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("../fonts/instrument-serif-italic-subset.woff2") format("woff2"); }
+/* Material Icons Outlined, subset to the icons this site uses */
+@font-face { font-family: "Material Icons Outlined"; font-style: normal; font-weight: 400; font-display: block; src: url("../fonts/material-icons-outlined-subset.woff2") format("woff2"); }
+.material-icons-outlined, .material-icons {
+  font-family: "Material Icons Outlined"; font-weight: normal; font-style: normal; display: inline-block;
+  letter-spacing: normal; text-transform: none; white-space: nowrap; word-wrap: normal; direction: ltr;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow: hidden; width: 1em; flex: none;
+}
+/* metric-matched fallback so the swap to Manrope doesn't shift layout */
+@font-face { font-family: "Manrope Fallback"; src: local("Arial"); size-adjust: 103%; ascent-override: 106%; descent-override: 30%; line-gap-override: 0%; }
 
 /* ---------- Reset ---------- */
 *,
@@ -369,8 +382,8 @@ html:not(.js) .preloader, .no-preloader .preloader { display: none; }
 .marquee.is-dark { border-color: rgba(255, 255, 255, 0.12); }
 
 /* ---------- Word fill statement ---------- */
-.fill-words .w { opacity: 0.14; transition: none; }
-.reduced-motion .fill-words .w, .reveal-fallback .fill-words .w { opacity: 1; }
+.fill-words .w { color: #7f8796; transition: none; } /* dim state still meets 3:1 for large text */
+.reduced-motion .fill-words .w, .reveal-fallback .fill-words .w { color: inherit; }
 
 /* ---------- Stats ---------- */
 .stats { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); }
@@ -443,7 +456,7 @@ html:not(.js) .preloader, .no-preloader .preloader { display: none; }
 .feature-list { display: grid; gap: 4px; margin-top: 32px; }
 .feature-list li { display: flex; gap: 16px; padding: 18px 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
 .feature-list li .material-icons-outlined { color: var(--red); font-size: 24px; margin-top: 2px; }
-.feature-list h4 { font-size: 18px; letter-spacing: -0.01em; }
+.feature-list h3 { font-size: 18px; letter-spacing: -0.01em; }
 .feature-list p { color: rgba(255, 255, 255, 0.6); font-size: 15px; }
 
 /* ---------- Process stack ---------- */
@@ -524,7 +537,7 @@ html:not(.js) .preloader, .no-preloader .preloader { display: none; }
 .quote:nth-child(2) .muted { color: rgba(255, 255, 255, 0.6); }
 .quote-text { font-size: clamp(20px, 1.8vw, 24px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.35; }
 .quote-stars { color: #f5a623; display: flex; gap: 2px; }
-.quote-stars .material-icons { font-size: 18px; }
+.quote-stars { font-size: 18px; letter-spacing: 2px; }
 .quote-by { display: flex; align-items: center; gap: 14px; }
 .avatar { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--paper-2); color: var(--navy); }
 .quote:nth-child(2) .avatar { background: rgba(255, 255, 255, 0.12); color: var(--white); }
@@ -545,7 +558,7 @@ html:not(.js) .preloader, .no-preloader .preloader { display: none; }
 @media (min-width: 1024px) { .site-footer { padding-bottom: 32px; } }
 .footer-top { display: grid; gap: 48px; }
 @media (min-width: 900px) { .footer-top { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; } }
-.footer-top h4 { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.45); margin-bottom: 18px; font-weight: 700; }
+.footer-top .footer-h { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); margin-bottom: 18px; font-weight: 700; }
 .footer-top ul { display: grid; gap: 10px; }
 .footer-top a { color: rgba(255, 255, 255, 0.85); transition: color 0.2s; }
 .footer-top a:hover { color: var(--red); }
@@ -742,3 +755,116 @@ textarea.input { resize: vertical; min-height: 140px; }
 @media (min-width: 1024px) { .has-sticky-cta .site-footer { padding-bottom: 32px; } }
 .mobile-sticky-cta { padding: 6px; border-radius: 999px; background: rgba(245, 242, 236, 0.85); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: var(--shadow-2); }
 .mobile-sticky-cta .btn { padding: 13px 14px; }
+
+/* Product renders shown as product imagery */
+.scene {
+  position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 50% 30%, rgba(255, 255, 255, 0.55), transparent 60%),
+    linear-gradient(180deg, #e8e1d4 0%, #ddd4c4 74%, #cbbfab 74%, #c3b6a1 100%);
+}
+.scene::after { /* floor shadow */
+  content: ""; position: absolute; left: 18%; right: 18%; top: 73%; height: 5%;
+  background: radial-gradient(closest-side, rgba(40, 30, 20, 0.35), transparent); filter: blur(4px);
+}
+.scene-art { position: relative; z-index: 1; width: 66%; height: 72%; display: grid; place-items: end center; margin-bottom: 6%; transition: transform 1.2s var(--ease-out); }
+.scene-art svg { width: auto; height: auto; max-width: 100%; max-height: 100%; filter: drop-shadow(0 18px 18px rgba(40, 30, 20, 0.28)); }
+.scene[data-type="balcony"] .scene-art, .scene[data-type="bifold-door"] .scene-art { width: 84%; }
+.pcard:hover .scene-art { transform: scale(1.04); }
+.scene-dark { background: radial-gradient(120% 80% at 50% 20%, #1d3b6b, #0b1b33 70%); }
+.scene-dark::after { background: radial-gradient(closest-side, rgba(0, 0, 0, 0.55), transparent); }
+
+.pcard-text { display: grid; gap: 4px; min-width: 0; }
+.pcard-blurb { color: var(--muted); font-size: 14px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pcard-quote {
+  display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; padding: 9px 14px; border-radius: 999px;
+  background: var(--white); border: 1px solid var(--line); font-size: 13px; color: var(--muted); transition: border-color 0.3s, color 0.3s;
+}
+.pcard-quote b { color: var(--red); }
+.pcard-quote .material-icons-outlined { font-size: 18px; color: var(--red); }
+.pcard-quote:hover { border-color: var(--red); color: var(--ink); }
+
+.price-ask { display: flex; gap: 14px; align-items: center; padding: 16px 18px; border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); }
+.price-ask .material-icons-outlined { width: 44px; height: 44px; flex: none; border-radius: 14px; display: grid; place-items: center; background: rgba(222, 27, 27, 0.1); color: var(--red); }
+.price-ask b { display: block; font-size: 18px; letter-spacing: -0.01em; }
+.price-ask span.small { color: var(--muted); }
+.finish-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.finish-dot { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--white); box-shadow: 0 0 0 1px var(--line-strong); transition: box-shadow 0.2s, transform 0.2s; }
+.finish-dot:hover { transform: scale(1.08); }
+.finish-dot[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--red); }
+.hcard .scene { z-index: -2; }
+.hcard .scene-art { width: 70%; height: 62%; margin-bottom: 22%; }
+.hcard .scene[data-type="bifold-door"] .scene-art { width: 86%; }
+.hcard img:not([src]) { visibility: hidden; }
+/* Phones: the header hides on scroll, so a sticky filter bar would float mid-screen over the cards */
+@media (max-width: 1023px) {
+  .filter-bar { position: static; padding: 4px 0; margin-inline: 0; }
+  .filter-bar.is-stuck { background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+/* keep the product in frame when stock photos are cropped to portrait cards */
+img[src*="stock/shower"] { object-position: 88% 50%; }
+img[src*="stock/sliding-door"] { object-position: 85% 50%; }
+img[src*="stock/bifold-door"] { object-position: 80% 50%; }
+img[src*="stock/jali-door"] { object-position: 62% 50%; }
+img[src*="stock/partition"] { object-position: 20% 50%; }
+/* Hero heading is visible from the first paint (it is the LCP element); a transform-only rise keeps the motion */
+@keyframes hero-rise { from { transform: translateY(28px); } }
+.hero-title { animation: hero-rise 1.1s var(--ease-out) both; }
+.reduced-motion .hero-title { animation: none; }
+
+/* FAQ */
+.faq { display: grid; gap: 10px; }
+.faq-item { border-radius: var(--radius); background: var(--white); border: 1px solid var(--line); overflow: hidden; }
+.faq-item summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 22px; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary h3 { font-size: 17px; letter-spacing: -0.01em; line-height: 1.35; font-weight: 700; }
+.faq-item summary .material-icons-outlined { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--paper); transition: transform 0.4s var(--ease-out), background-color 0.3s; font-size: 20px; }
+.faq-item[open] summary .material-icons-outlined { transform: rotate(45deg); background: var(--red); color: var(--white); }
+.faq-item p { padding: 0 22px 20px; color: var(--muted); }
+/* Areas served */
+.areas { display: grid; gap: 4px; margin-top: 28px; }
+.areas li { display: grid; grid-template-columns: auto 1fr; gap: 14px; padding: 16px 0; border-top: 1px solid var(--line); }
+.areas li:last-child { border-bottom: 1px solid var(--line); }
+.areas .material-icons-outlined { color: var(--red); font-size: 22px; }
+.areas b { display: block; font-size: 17px; }
+.areas span:not(.material-icons-outlined) { color: var(--muted); font-size: 15px; }
+.dark .list-lines li { border-color: rgba(255, 255, 255, 0.14); }
+.card { color: inherit; }
+
+/* Above-the-fold intro motion is pure CSS so content paints immediately (fast LCP), no JS needed */
+@keyframes intro-up { from { opacity: 0; transform: translateY(26px); } }
+[data-intro], [data-intro-title] { animation: intro-up 1s var(--ease-out) both; animation-delay: var(--d, 0s); }
+[data-intro-title] { animation-duration: 1.2s; }
+.reduced-motion [data-intro], .reduced-motion [data-intro-title] { animation: none; }
+
+img[data-src] { visibility: hidden; }
+.hero-media { background: #2a3445; }
+
+/* Hero caption: keep the button clear of the clipped edges of the expanding image */
+.hero-media-caption { padding-bottom: calc(clamp(24px, 5vw, 64px) + 11svh); }
+@media (max-width: 640px) {
+  .hero-media-caption { padding-inline: 28px; gap: 16px; }
+  .hero-media-caption .btn { width: 100%; }
+}
+
+/* Product pages have their own bottom bar on phones: hide the dock and sit the bar at the bottom */
+@media (max-width: 1023px) {
+  .has-sticky-cta .dock { display: none; }
+  .has-sticky-cta .mobile-sticky-cta { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transition: transform 0.5s var(--ease-out); }
+  .has-sticky-cta .wa-fab { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .has-sticky-cta .site-footer { padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); }
+}
+/* Back button on product pages */
+.pd-top { display: flex; align-items: center; gap: 14px; }
+.back-btn {
+  width: 44px; height: 44px; flex: none; border-radius: 50%; display: grid; place-items: center;
+  background: var(--white); border: 1px solid var(--line); box-shadow: var(--shadow-1); transition: background-color 0.3s, color 0.3s;
+}
+.back-btn:hover { background: var(--ink); color: var(--white); }
+.back-btn .material-icons-outlined { font-size: 22px; }
+.pd-top .breadcrumb { min-width: 0; }
+/* Phones: back button lives in the bottom bar with Try at home / Enquire */
+.mobile-sticky-cta { align-items: center; }
+.mobile-sticky-cta .back-btn { width: 48px; height: 48px; box-shadow: none; }
+@media (max-width: 1023px) { .back-top { display: none; } }
+@media (max-width: 380px) { .mobile-sticky-cta .btn { padding: 12px 10px; font-size: 14px; gap: 6px; } .mobile-sticky-cta .btn .material-icons-outlined { font-size: 18px; } }

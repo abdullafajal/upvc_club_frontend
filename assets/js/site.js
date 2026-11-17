@@ -230,7 +230,7 @@
       el.classList.add("fill-words");
       const words = wrapWords(el);
       gsap.to(words, {
-        opacity: 1, stagger: 0.1, ease: "none",
+        color: getComputedStyle(el).color, stagger: 0.1, ease: "none",
         scrollTrigger: { trigger: el, start: "top 80%", end: "bottom 45%", scrub: 0.6 },
       });
     });
@@ -402,9 +402,7 @@
   /* Hero intro (after preloader) */
   function heroIntro() {
     if (!hasGSAP || reduced) return;
-    $$("[data-intro]").forEach((el, i) => {
-      gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "expo.out", delay: 0.35 + i * 0.08 });
-    });
+    /* [data-intro] elements are animated in CSS */
   }
 
   /* Phone demo on homepage: animated swatches + scan line */
@@ -433,34 +431,85 @@
     }
   }
 
-  /* Product placeholder art */
+  /* Product artwork. The product photos currently stored in the backend are
+     generic stock images that often don't match the product, so cards show an
+     accurate rendering instead. Set USE_PRODUCT_PHOTOS to true once real
+     photos of each product have been uploaded in the admin. */
+  const USE_PRODUCT_PHOTOS = false;
+  UPVC.usePhotos = USE_PRODUCT_PHOTOS;
+  UPVC.productType = (product) => (window.UPVCFrames ? UPVCFrames.guessType(product) : "sliding-window");
   UPVC.productArt = function (product, opts) {
     if (!window.UPVCFrames) return "";
-    return UPVCFrames.svg(UPVCFrames.guessType(product), Object.assign({ finish: "white", glass: "clear" }, opts || {}));
+    const type = UPVCFrames.guessType(product);
+    return UPVCFrames.svg(type, Object.assign({ finish: UPVCFrames.SHOWCASE_FINISH[type] || "white", glass: "clear" }, opts || {}));
   };
+  UPVC.productScene = function (product, opts) {
+    return `<div class="scene" data-type="${UPVC.productType(product)}"><div class="scene-art">${UPVC.productArt(product, opts)}</div></div>`;
+  };
+  /* Free Pexels photos (pexels.com/license) matched by hand to each product
+     type, stored in assets/img/stock/. Types without a fitting photo
+     (e.g. picture window, french door) keep the rendering. */
+  const STOCK_BY_SLUG = { "tilt-turn-window": "tilt-turn-window" };
+  const STOCK_BY_TYPE = {
+    "sliding-window": "sliding-window", "casement-window": "casement-window", "sliding-door": "sliding-door",
+    "bifold-door": "bifold-door", balcony: "balcony", shower: "shower", louvers: "louvers",
+    partition: "partition", "jali-door": "jali-door",
+  };
+  UPVC.stockPhoto = function (product) {
+    const key = STOCK_BY_SLUG[product.slug] || STOCK_BY_TYPE[UPVC.productType(product)];
+    return key ? `assets/img/stock/${key}` : null;
+  };
+  /* <img> markup for a product photo: uploaded photo, or a responsive stock WebP */
+  UPVC.photoTag = function (product, opts) {
+    opts = opts || {};
+    const alt = UPVC.esc(product.name);
+    const lazy = opts.eager ? 'fetchpriority="high"' : 'loading="lazy"';
+    if (USE_PRODUCT_PHOTOS && product.image) return `<img src="${UPVC.esc(product.image)}" alt="${alt}" ${lazy} decoding="async">`;
+    const base = UPVC.stockPhoto(product);
+    if (!base) return "";
+    if (!opts.big) return `<img src="${base}-640.webp" width="640" height="800" alt="${alt}" ${lazy} decoding="async">`;
+    return `<img src="${base}-640.webp" srcset="${base}-640.webp 640w, ${base}-1200.webp 1200w" sizes="${opts.sizes || "100vw"}" width="640" height="800" alt="${alt}" ${lazy} decoding="async">`;
+  };
+  UPVC.productPhoto = (product) => (USE_PRODUCT_PHOTOS && product.image) || UPVC.stockPhoto(product);
+  UPVC.productMedia = (product) => UPVC.photoTag(product) || UPVC.productScene(product);
+  UPVC.quoteUrl = (product, extra) => "contact.html?product=" + encodeURIComponent(product.name) + (extra ? "&config=" + encodeURIComponent(extra) : "");
   UPVC.esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  UPVC.price = (v) => {
-    const n = parseFloat(v);
-    return isNaN(n) ? UPVC.esc(v) : n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
-  };
-  UPVC.unit = (u) => ({ sqft: "sq.ft", rft: "r.ft", nos: "piece", set: "set" }[u] || u || "");
 
+  /* Products known at build time have a static, crawlable page */
+  UPVC.productUrl = (p) => ((window.UPVC_STATIC || []).indexOf(p.slug) !== -1 ? `product-${p.slug}.html` : "product-detail.html?slug=" + encodeURIComponent(p.slug));
   UPVC.productCard = function (p) {
     const e = UPVC.esc;
-    const url = "product-detail.html?slug=" + encodeURIComponent(p.slug);
-    const media = p.image ? `<img src="${e(p.image)}" alt="${e(p.name)}" loading="lazy">` : `<div class="ph">${UPVC.productArt(p)}</div>`;
+    const url = UPVC.productUrl(p);
+    const blurb = (p.description || "").split(/[.\n]/)[0];
     return `<article class="pcard" data-reveal>
         <div class="pcard-media">
-          <a href="${url}" class="pcard-link" data-cursor="View" aria-label="${e(p.name)}">${media}</a>
+          <a href="${url}" class="pcard-link" data-cursor="View" aria-label="${e(p.name)}">${UPVC.productMedia(p)}</a>
           ${p.category ? `<span class="pcard-tag">${e(p.category.name)}</span>` : ""}
           <a class="pcard-try" href="visualizer.html?product=${encodeURIComponent(p.slug)}"><span class="material-icons-outlined">view_in_ar</span>Try at home</a>
         </div>
-        <a href="${url}" class="pcard-row">
-          <div><h3 class="pcard-title">${e(p.name)}</h3><p class="pcard-price">From <b>₹${UPVC.price(p.base_price)}</b> / ${e(UPVC.unit(p.unit))}</p></div>
-          <span class="pcard-arrow"><span class="material-icons-outlined">arrow_forward</span></span>
-        </a>
+        <div class="pcard-row">
+          <a href="${url}" class="pcard-text"><h3 class="pcard-title">${e(p.name)}</h3>${blurb ? `<p class="pcard-blurb">${e(blurb)}</p>` : ""}</a>
+          <a href="${url}" class="pcard-arrow" aria-label="View ${e(p.name)}"><span class="material-icons-outlined">arrow_forward</span></a>
+        </div>
+        <a class="pcard-quote" href="${UPVC.quoteUrl(p)}"><span class="material-icons-outlined">request_quote</span>Price on request · <b>Get a quote</b></a>
       </article>`;
   };
+
+  /* Images marked data-src load when they come near the viewport */
+  function initDeferredImages() {
+    const imgs = $$("img[data-src]");
+    if (!imgs.length) return;
+    const load = (img) => {
+      if (img.dataset.srcset) img.srcset = img.dataset.srcset;
+      img.src = img.dataset.src;
+      img.removeAttribute("data-src");
+    };
+    if (!("IntersectionObserver" in window)) { imgs.forEach(load); return; }
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (e.isIntersecting) { load(e.target); io.unobserve(e.target); }
+    }), { rootMargin: "600px 600px" });
+    imgs.forEach((img) => io.observe(img));
+  }
 
   /* Public: animate newly injected nodes */
   UPVC.animate = function (root) {
@@ -477,6 +526,7 @@
     }
     initLenis();
     initChrome();
+    initDeferredImages();
     initTransitions();
     initMarquees();
     initPhoneDemo();

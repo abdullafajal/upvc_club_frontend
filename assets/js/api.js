@@ -4,11 +4,37 @@ const API_BASE_URL = window.UPVC_API || (/^(localhost|127\.0\.0\.1)$/.test(locat
   : "https://upvc.pythonanywhere.com/api");
 const API_ORIGIN = API_BASE_URL.replace(/\/api\/?$/, "");
 
-async function apiGet(path, fallback) {
+async function apiFetch(path) {
+  const res = await fetch(`${API_BASE_URL}${path}`, { headers: { Accept: "application/json" } });
+  if (!res.ok) throw new Error(res.status);
+  return res.json();
+}
+
+/* The API host can be slow to wake up, so list/detail responses are kept in
+   localStorage: a cached copy is returned instantly and refreshed in the
+   background for the next visit. */
+const API_CACHE_PREFIX = "upvc-api:";
+const API_CACHE_MAX_AGE = 7 * 24 * 3600 * 1000;
+function cacheRead(path) {
   try {
-    const res = await fetch(`${API_BASE_URL}${path}`, { headers: { Accept: "application/json" } });
-    if (!res.ok) throw new Error(res.status);
-    return await res.json();
+    const hit = JSON.parse(localStorage.getItem(API_CACHE_PREFIX + path) || "null");
+    if (hit && Date.now() - hit.t < API_CACHE_MAX_AGE) return hit.d;
+  } catch (e) { /* storage unavailable */ }
+  return undefined;
+}
+function cacheWrite(path, data) {
+  try { localStorage.setItem(API_CACHE_PREFIX + path, JSON.stringify({ t: Date.now(), d: data })); } catch (e) { /* full or blocked */ }
+}
+
+async function apiGet(path, fallback, useCache = true) {
+  const cached = useCache ? cacheRead(path) : undefined;
+  const network = apiFetch(path).then((data) => { if (useCache) cacheWrite(path, data); return data; });
+  if (cached !== undefined) {
+    network.catch(() => {});
+    return cached;
+  }
+  try {
+    return await network;
   } catch (error) {
     console.warn(`API ${path} failed:`, error);
     return fallback;
@@ -19,7 +45,7 @@ const fetchFeaturedProducts = () => apiGet("/featured-products/", []);
 const fetchCategories = () => apiGet("/categories/", []);
 const fetchPortfolio = () => apiGet("/portfolio/", []);
 const fetchPortfolioCategories = () => apiGet("/portfolio/categories/", []);
-const fetchCaptcha = () => apiGet("/captcha/", null);
+const fetchCaptcha = () => apiGet("/captcha/", null, false);
 const fetchProducts = (category) => apiGet(`/products/${category ? `?category=${encodeURIComponent(category)}` : ""}`, []);
 const fetchProductDetail = (slug) => apiGet(`/products/${encodeURIComponent(slug)}/`, null);
 
@@ -59,7 +85,7 @@ async function fetchTrackingData(query) {
 }
 
 /* Populate phone, email, address, images and stats from site settings. */
-document.addEventListener("DOMContentLoaded", async () => {
+async function hydrateSettings() {
   const settings = await fetchSiteSettings();
   if (!settings || typeof settings !== "object") return;
   const each = (sel, fn) => document.querySelectorAll(sel).forEach(fn);
@@ -109,4 +135,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   document.dispatchEvent(new CustomEvent("upvc:settings", { detail: settings }));
-});
+}
+// scripts may be loaded after DOMContentLoaded (see the loader in layout.html)
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", hydrateSettings);
+else hydrateSettings();

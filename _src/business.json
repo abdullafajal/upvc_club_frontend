@@ -1,0 +1,60 @@
+{
+  "name": "UPVC Club",
+  "url": "https://upvcclub.com/",
+  "tagline": "UPVC windows, doors, balcony glazing and glass partitions in Noida, Greater Noida & Delhi NCR",
+  "telephone": "+91-9582010747",
+  "phone_display": "+91 95820 10747",
+  "street": "D-01, Sector Chi V, Opposite Amarpali Society",
+  "locality": "Greater Noida",
+  "region": "Uttar Pradesh",
+  "region_code": "UP",
+  "postal_code": "201312",
+  "country": "IN",
+  "hours": { "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "19:00", "display": "Mon–Sat, 9am–7pm" },
+  "map": "https://www.google.com/maps/search/?api=1&query=UPVC+Club+Sector+Chi+V+Greater+Noida",
+  "areas": [
+    { "name": "Noida", "detail": "All sectors — incl. Sector 15, 18, 44, 50, 62, 75, 76, 78, 93, 104, 137, 143, 150 and the Noida Expressway societies" },
+    { "name": "Greater Noida West (Noida Extension)", "detail": "Gaur City, Techzone 4, Sector 1, 16 and nearby societies" },
+    { "name": "Greater Noida", "detail": "Alpha, Beta, Gamma, Delta, Chi, Omega, Pari Chowk, Knowledge Park" },
+    { "name": "Ghaziabad", "detail": "Indirapuram, Vaishali, Vasundhara, Crossings Republik, Raj Nagar Extension" },
+    { "name": "Delhi", "detail": "East Delhi, Mayur Vihar, Laxmi Nagar, South Delhi and across the city" },
+    { "name": "Gurugram & Faridabad", "detail": "Also served — we cover the whole of Delhi NCR" }
+  ],
+  "services": [
+    { "name": "UPVC sliding windows", "category": "windows" },
+    { "name": "UPVC casement & tilt-turn windows", "category": "windows" },
+    { "name": "UPVC & aluminium sliding doors", "category": "doors" },
+    { "name": "Slide & fold (bi-fold) doors", "category": "doors" },
+    { "name": "Balcony covering / balcony glazing", "category": "balcony-solutions" },
+    { "name": "Toughened glass office partitions", "category": "glass-partitions" },
+    { "name": "Frameless glass shower cubicles", "category": "glass-partitions" },
+    { "name": "Safety jali & mosquito mesh doors", "category": "safety-mesh" },
+    { "name": "WPC louvers & decorative wall panels", "category": "wall-ceiling-decor" }
+  ],
+  "faq": [
+    {
+      "q": "Do you install UPVC windows and doors in Noida?",
+      "a": "Yes. UPVC Club is based in Greater Noida (Sector Chi V) and installs UPVC windows, doors, balcony glazing and glass partitions across Noida, Greater Noida West (Noida Extension), Greater Noida, Ghaziabad and Delhi, and across the rest of Delhi NCR on request."
+    },
+    {
+      "q": "How much do UPVC windows cost in Noida?",
+      "a": "The price depends on the size of each opening, the window style (sliding, casement, tilt & turn), the profile, the glass (single, double glazed, toughened) and the hardware. We do a free site visit to measure every opening and then share an itemised quotation, so you pay only for what your home needs."
+    },
+    {
+      "q": "Are UPVC windows good for Delhi NCR's heat, dust and noise?",
+      "a": "Yes. UPVC is a natural insulator, and our multi-chamber profiles with sealed double glazing keep heat and dust out, reduce outside traffic noise and lower air-conditioning load. UPVC does not rust, rot or need painting, and it is termite-proof."
+    },
+    {
+      "q": "Can I see how a window will look in my home before ordering?",
+      "a": "Yes. Use the free Try at Home tool on our website: open your phone camera (or upload a photo of your room), drag the frame onto your window or wall, and switch between styles, frame colours and glass types. You can save the photo and send it to us for a quote."
+    },
+    {
+      "q": "Do you do balcony covering in Noida high-rise societies?",
+      "a": "Yes. We cover balconies with slim UPVC or aluminium sliding glass systems that keep out dust, rain, pigeons and noise while keeping the view. Our team measures on site and advises on what your society allows."
+    },
+    {
+      "q": "How long does installation take, and can I track my order?",
+      "a": "It depends on the number and size of windows. Your quotation includes the timeline, and you can follow every stage — approval, measurement, fabrication, ready, installation — on the Track Order page with your order number."
+    }
+  ]
+}
