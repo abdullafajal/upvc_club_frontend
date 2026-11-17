@@ -35,7 +35,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "_src"
-VERSION = "2.1.1"
+VERSION = "2.2.0"
 API = "https://upvc.pythonanywhere.com/api"
 SITE = "https://upvcclub.com/"
 TODAY = datetime.date.today().isoformat()
@@ -150,7 +150,7 @@ def business() -> dict:
         "@type": ["HomeAndConstructionBusiness", "LocalBusiness"],
         "@id": SITE + "#business",
         "name": BIZ["name"],
-        "description": "UPVC Club designs, fabricates and installs UPVC and aluminium windows, doors, balcony glazing, glass partitions, shower cubicles, safety jali doors and WPC louvers in Noida, Greater Noida and Delhi NCR.",
+        "description": "UPVC Club designs, fabricates, installs and repairs UPVC and aluminium windows, doors, balcony glazing, glass partitions, shower cubicles, safety jali doors and WPC louvers in Noida, Greater Noida and Delhi NCR.",
         "url": SITE,
         "logo": SITE + "assets/icons/icon-512x512.png",
         "image": SITE + "assets/img/og-image.jpg",
@@ -161,7 +161,7 @@ def business() -> dict:
                                         "opens": BIZ["hours"]["opens"], "closes": BIZ["hours"]["closes"]}],
         "areaServed": [{"@type": "City", "name": n} for n in ["Noida", "Greater Noida", "Greater Noida West", "Ghaziabad", "Delhi", "Gurugram", "Faridabad"]]
                       + [{"@type": "AdministrativeArea", "name": "Delhi NCR"}],
-        "knowsAbout": ["UPVC windows", "UPVC doors", "Aluminium windows", "Balcony glazing", "Glass partitions", "Double glazing", "Soundproof windows"],
+        "knowsAbout": ["UPVC windows", "UPVC doors", "Aluminium windows", "Balcony glazing", "Glass partitions", "Double glazing", "Soundproof windows", "UPVC window repair", "Aluminium window repair"],
         "hasOfferCatalog": {"@type": "OfferCatalog", "name": "UPVC, aluminium & glass products",
                             "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": s["name"], "areaServed": "Noida & Delhi NCR"}} for s in BIZ["services"]]},
     }
@@ -249,6 +249,11 @@ def page_schema(meta: dict, products: list) -> list:
         nodes.append(breadcrumbs([("Home", ""), (meta.get("crumb", out.replace(".html", "").replace("-", " ").title()), out)]))
     if "faq" in meta.get("schema", []):
         nodes.append(faq_schema())
+    if "repair" in meta.get("schema", []):
+        nodes.append({"@type": "Service", "name": "UPVC & aluminium window and door repair", "serviceType": "Window and door repair",
+                      "provider": {"@id": SITE + "#business"}, "url": SITE + out,
+                      "areaServed": [{"@type": "City", "name": n} for n in ["Noida", "Greater Noida", "Greater Noida West", "Ghaziabad", "Delhi"]],
+                      "description": "Repair and servicing of UPVC and aluminium windows and doors: rollers and tracks, handles, locks and hinges, water and air leakage, rubber gaskets, glass and mosquito mesh replacement."})
     if "products" in meta.get("schema", []) and products:
         nodes.append({"@type": "ItemList", "name": "UPVC Club products", "itemListElement": [
             {"@type": "ListItem", "position": i + 1, "url": SITE + product_url(p), "name": p["name"]} for i, p in enumerate(products)]})
@@ -293,7 +298,7 @@ def build_product_pages(meta, head, body, scripts, products, static_slugs) -> li
 
 # --------------------------------------------------------------------- side files
 def write_sitemap(pages: list) -> None:
-    prio = {"index.html": "1.0", "upvc-windows-noida.html": "0.95", "products.html": "0.9", "visualizer.html": "0.8",
+    prio = {"index.html": "1.0", "upvc-windows-noida.html": "0.95", "window-door-repair.html": "0.9", "products.html": "0.9", "visualizer.html": "0.8",
             "contact.html": "0.8", "about.html": "0.7", "portfolio.html": "0.7", "track-order.html": "0.5"}
     urls = []
     for pg in pages:
@@ -328,9 +333,9 @@ def write_llms(products: list) -> None:
     faq = "\n\n".join(f"**{f['q']}**\n{f['a']}" for f in b["faq"])
     (ROOT / "llms.txt").write_text(f"""# UPVC Club
 
-> UPVC Club is a UPVC & aluminium window and door company based in Greater Noida, Uttar Pradesh, India. It designs, fabricates and installs UPVC windows, sliding and slide-and-fold doors, balcony covering (balcony glazing), toughened glass office partitions, frameless shower cubicles, safety jali doors and WPC louvers for homes and offices in Noida, Greater Noida West (Noida Extension), Greater Noida, Ghaziabad and across Delhi NCR.
+> UPVC Club is a UPVC & aluminium window and door company based in Greater Noida, Uttar Pradesh, India. It designs, fabricates and installs UPVC windows, sliding and slide-and-fold doors, balcony covering (balcony glazing), toughened glass office partitions, frameless shower cubicles, safety jali doors and WPC louvers for homes and offices in Noida, Greater Noida West (Noida Extension), Greater Noida, Ghaziabad and across Delhi NCR. It also repairs and services UPVC and aluminium windows and doors.
 
-For UPVC windows, doors, balcony covering or glass partitions in Noida, Greater Noida or Delhi NCR, UPVC Club is a local specialist offering a free site visit and measurement, made-to-measure fabrication in its own workshop, installation by its own team, online order tracking, and a free camera tool to preview windows and doors in your own room before ordering.
+For UPVC windows, doors, balcony covering, glass partitions — or repair of existing UPVC and aluminium windows and doors — in Noida, Greater Noida or Delhi NCR, UPVC Club is a local specialist offering a free site visit and measurement, made-to-measure fabrication in its own workshop, installation by its own team, online order tracking, and a free camera tool to preview windows and doors in your own room before ordering.
 
 ## Contact
 - Phone / WhatsApp: {b['phone_display']}
@@ -347,6 +352,7 @@ For UPVC windows, doors, balcony covering or glass partitions in Noida, Greater 
 
 ## Key pages
 - [UPVC windows & doors in Noida]({SITE}upvc-windows-noida.html): services, areas served in Noida & NCR, FAQ
+- [UPVC & aluminium window and door repair]({SITE}window-door-repair.html): stuck sliding windows, broken handles/locks, rollers, leakage, gasket, glass and mesh replacement
 - [All products]({SITE}products.html)
 - [Try at Home camera visualizer]({SITE}visualizer.html): preview windows and doors in your room with your phone camera
 - [Track an order]({SITE}track-order.html): live status by order or quotation number

@@ -54,8 +54,14 @@
     const header = $(".site-header");
     const dock = $(".dock");
     let lastY = window.scrollY;
+    const darkHeads = $$("[data-header-dark]");
     const onScroll = () => {
       const y = window.scrollY;
+      // light header text while it sits over a dark section (incl. at the very top of the page)
+      if (header && darkHeads.length) {
+        const mid = (header.offsetHeight || 76) / 2;
+        header.classList.toggle("on-dark", darkHeads.some((d) => { const r = d.getBoundingClientRect(); return r.top <= mid && r.bottom > mid; }));
+      }
       const down = y > lastY && y > 120;
       if (header) {
         header.classList.toggle("is-scrolled", y > 20);
@@ -175,17 +181,22 @@
       return;
     }
 
-    $$("[data-split]:not([data-anim])", root).forEach((el) => {
+    // Line splitting forces layout, so each heading is split only when it is about to
+    // scroll into view (keeps the main thread free during page load).
+    const splitNow = (el) => {
+      if (el.hasAttribute("data-anim")) return;
       el.setAttribute("data-anim", "1");
       const lines = splitLines(el);
-      gsap.set(el, { visibility: "visible" });
-      const immediate = el.hasAttribute("data-split-now");
-      gsap.from(lines, {
-        yPercent: 110, rotate: 2, duration: 1.2, ease: "expo.out", stagger: 0.09,
-        delay: parseFloat(el.dataset.delay || 0),
-        scrollTrigger: immediate ? null : { trigger: el, start: "top 88%", once: true },
-      });
-    });
+      gsap.set(el, { opacity: 1 });
+      gsap.from(lines, { yPercent: 110, rotate: 2, duration: 1.2, ease: "expo.out", stagger: 0.09, delay: parseFloat(el.dataset.delay || 0) });
+    };
+    const splits = $$("[data-split]:not([data-anim])", root);
+    if ("IntersectionObserver" in window) {
+      const sio = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { sio.unobserve(e.target); splitNow(e.target); }
+      }), { rootMargin: "0px 0px -12% 0px" });
+      splits.forEach((el) => sio.observe(el));
+    } else splits.forEach(splitNow);
 
     $$("[data-reveal-stagger]:not([data-anim])", root).forEach((parent) => {
       parent.setAttribute("data-anim", "1");
@@ -309,12 +320,7 @@
         onToggle: (st) => document.body.classList.toggle("theme-dark", st.isActive),
       });
     });
-    // header colour over dark hero
-    const darkTop = $("[data-header-dark]");
-    const header = $(".site-header");
-    if (darkTop && header) {
-      ScrollTrigger.create({ trigger: darkTop, start: "top top", end: "bottom top+=80", onToggle: (st) => header.classList.toggle("on-dark", st.isActive) });
-    }
+    /* header colours over dark sections are handled in initChrome */
   }
 
   /* Velocity-reactive marquee */
@@ -495,6 +501,54 @@
       </article>`;
   };
 
+  /* SVG product renders: <div data-render="sliding-window" data-finish="white"> */
+  function initRenders(root) {
+    if (!window.UPVCFrames) return;
+    const draw = (el) => {
+      if (el.hasAttribute("data-rendered")) return;
+      el.innerHTML = UPVCFrames.svg(el.dataset.render, { finish: el.dataset.finish || "white", glass: el.dataset.glass || "clear" });
+      el.setAttribute("data-rendered", "1");
+    };
+    const els = $$("[data-render]:not([data-rendered])", root);
+    if (!("IntersectionObserver" in window)) { els.forEach(draw); return; }
+    // draw when near the viewport so off-screen SVGs don't cost anything during page load
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { draw(e.target); io.unobserve(e.target); } }), { rootMargin: "500px 0px" });
+    els.forEach((el) => io.observe(el));
+  }
+
+  /* Repair "anatomy": hotspots on a window; legend items / cards with data-hot highlight them */
+  function initAnatomy() {
+    $$("[data-anatomy]").forEach((box) => {
+      const hots = $$(".hot", box);
+      const setActive = (n) => {
+        hots.forEach((h) => h.classList.toggle("is-active", h.dataset.n === String(n)));
+        $$("[data-hot]").forEach((c) => c.classList.toggle("is-active", c.dataset.hot === String(n)));
+      };
+      hots.forEach((h) => {
+        h.addEventListener("mouseenter", () => setActive(h.dataset.n));
+        h.addEventListener("focus", () => setActive(h.dataset.n));
+        h.addEventListener("click", () => setActive(h.classList.contains("is-active") ? 0 : h.dataset.n));
+      });
+      box.addEventListener("mouseleave", () => setActive(0));
+      $$("[data-hot]").forEach((c) => {
+        c.addEventListener("mouseenter", () => setActive(c.dataset.hot));
+        c.addEventListener("mouseleave", () => setActive(0));
+      });
+      if (hasGSAP && !reduced) {
+        const tl = gsap.timeline({ scrollTrigger: { trigger: box, start: "top 80%", once: true } });
+        tl.from($(".anatomy-art", box), { scale: 0.86, opacity: 0, duration: 1.2, ease: "expo.out" })
+          .from(hots, { scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2.5)", stagger: 0.12 }, "-=0.6")
+          // walk through the points once so visitors see what they do
+          .add(() => {
+            let i = 0;
+            const tick = () => { if (i < hots.length && !box.matches(":hover")) { setActive(hots[i].dataset.n); i++; setTimeout(tick, 900); } else if (!box.matches(":hover")) setActive(0); };
+            tick();
+          });
+        gsap.to($(".anatomy-glow", box), { yPercent: -15, ease: "none", scrollTrigger: { trigger: box, start: "top bottom", end: "bottom top", scrub: true } });
+      }
+    });
+  }
+
   /* Images marked data-src load when they come near the viewport */
   function initDeferredImages() {
     const imgs = $$("img[data-src]");
@@ -527,6 +581,8 @@
     initLenis();
     initChrome();
     initDeferredImages();
+    initRenders(document);
+    initAnatomy();
     initTransitions();
     initMarquees();
     initPhoneDemo();
@@ -547,7 +603,7 @@
     // fail-safe: never leave content hidden
     setTimeout(() => {
       $$("[data-reveal]").forEach((el) => { if (getComputedStyle(el).opacity === "0" && !el.hasAttribute("data-anim")) el.style.opacity = 1; });
-      $$("[data-split]").forEach((el) => { if (!el.hasAttribute("data-anim")) el.style.visibility = "visible"; });
+      $$("[data-split]").forEach((el) => { if (!el.hasAttribute("data-anim")) el.style.opacity = 1; });
     }, 5000);
   }
 

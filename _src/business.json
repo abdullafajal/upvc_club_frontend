@@ -1,7 +1,7 @@
 {
   "name": "UPVC Club",
   "url": "https://upvcclub.com/",
-  "tagline": "UPVC windows, doors, balcony glazing and glass partitions in Noida, Greater Noida & Delhi NCR",
+  "tagline": "UPVC & aluminium windows, doors, balcony glazing, glass partitions — and repair & service — in Noida, Greater Noida & Delhi NCR",
   "telephone": "+91-9582010747",
   "phone_display": "+91 95820 10747",
   "street": "D-01, Sector Chi V, Opposite Amarpali Society",
@@ -10,26 +10,95 @@
   "region_code": "UP",
   "postal_code": "201312",
   "country": "IN",
-  "hours": { "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "09:00", "closes": "19:00", "display": "Mon–Sat, 9am–7pm" },
+  "hours": {
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "opens": "09:00",
+    "closes": "19:00",
+    "display": "Mon–Sat, 9am–7pm"
+  },
   "map": "https://www.google.com/maps/search/?api=1&query=UPVC+Club+Sector+Chi+V+Greater+Noida",
   "areas": [
-    { "name": "Noida", "detail": "All sectors — incl. Sector 15, 18, 44, 50, 62, 75, 76, 78, 93, 104, 137, 143, 150 and the Noida Expressway societies" },
-    { "name": "Greater Noida West (Noida Extension)", "detail": "Gaur City, Techzone 4, Sector 1, 16 and nearby societies" },
-    { "name": "Greater Noida", "detail": "Alpha, Beta, Gamma, Delta, Chi, Omega, Pari Chowk, Knowledge Park" },
-    { "name": "Ghaziabad", "detail": "Indirapuram, Vaishali, Vasundhara, Crossings Republik, Raj Nagar Extension" },
-    { "name": "Delhi", "detail": "East Delhi, Mayur Vihar, Laxmi Nagar, South Delhi and across the city" },
-    { "name": "Gurugram & Faridabad", "detail": "Also served — we cover the whole of Delhi NCR" }
+    {
+      "name": "Noida",
+      "detail": "All sectors — incl. Sector 15, 18, 44, 50, 62, 75, 76, 78, 93, 104, 137, 143, 150 and the Noida Expressway societies"
+    },
+    {
+      "name": "Greater Noida West (Noida Extension)",
+      "detail": "Gaur City, Techzone 4, Sector 1, 16 and nearby societies"
+    },
+    {
+      "name": "Greater Noida",
+      "detail": "Alpha, Beta, Gamma, Delta, Chi, Omega, Pari Chowk, Knowledge Park"
+    },
+    {
+      "name": "Ghaziabad",
+      "detail": "Indirapuram, Vaishali, Vasundhara, Crossings Republik, Raj Nagar Extension"
+    },
+    {
+      "name": "Delhi",
+      "detail": "East Delhi, Mayur Vihar, Laxmi Nagar, South Delhi and across the city"
+    },
+    {
+      "name": "Gurugram & Faridabad",
+      "detail": "Also served — we cover the whole of Delhi NCR"
+    }
   ],
   "services": [
-    { "name": "UPVC sliding windows", "category": "windows" },
-    { "name": "UPVC casement & tilt-turn windows", "category": "windows" },
-    { "name": "UPVC & aluminium sliding doors", "category": "doors" },
-    { "name": "Slide & fold (bi-fold) doors", "category": "doors" },
-    { "name": "Balcony covering / balcony glazing", "category": "balcony-solutions" },
-    { "name": "Toughened glass office partitions", "category": "glass-partitions" },
-    { "name": "Frameless glass shower cubicles", "category": "glass-partitions" },
-    { "name": "Safety jali & mosquito mesh doors", "category": "safety-mesh" },
-    { "name": "WPC louvers & decorative wall panels", "category": "wall-ceiling-decor" }
+    {
+      "name": "UPVC sliding windows",
+      "category": "windows"
+    },
+    {
+      "name": "UPVC casement & tilt-turn windows",
+      "category": "windows"
+    },
+    {
+      "name": "UPVC & aluminium sliding doors",
+      "category": "doors"
+    },
+    {
+      "name": "Slide & fold (bi-fold) doors",
+      "category": "doors"
+    },
+    {
+      "name": "Balcony covering / balcony glazing",
+      "category": "balcony-solutions"
+    },
+    {
+      "name": "Toughened glass office partitions",
+      "category": "glass-partitions"
+    },
+    {
+      "name": "Frameless glass shower cubicles",
+      "category": "glass-partitions"
+    },
+    {
+      "name": "Safety jali & mosquito mesh doors",
+      "category": "safety-mesh"
+    },
+    {
+      "name": "WPC louvers & decorative wall panels",
+      "category": "wall-ceiling-decor"
+    },
+    {
+      "name": "UPVC window & door repair and servicing",
+      "category": "repair"
+    },
+    {
+      "name": "Aluminium window & door repair",
+      "category": "repair"
+    },
+    {
+      "name": "Glass, rubber gasket, roller, lock & mesh replacement",
+      "category": "repair"
+    }
   ],
   "faq": [
     {
@@ -39,6 +108,10 @@
     {
       "q": "How much do UPVC windows cost in Noida?",
       "a": "The price depends on the size of each opening, the window style (sliding, casement, tilt & turn), the profile, the glass (single, double glazed, toughened) and the hardware. We do a free site visit to measure every opening and then share an itemised quotation, so you pay only for what your home needs."
+    },
+    {
+      "q": "Do you repair old UPVC and aluminium windows and doors?",
+      "a": "Yes. We repair and service UPVC and aluminium windows and doors in Noida, Greater Noida and across Delhi NCR — including ones we didn't install. Common fixes: windows that are hard to slide or won't lock, broken handles, locks and hinges, worn rollers and tracks, water or air leakage, replacing rubber gaskets and seals, cracked or fogged glass, and torn mosquito mesh. Book a repair visit and our technician will inspect and quote before starting work."
     },
     {
       "q": "Are UPVC windows good for Delhi NCR's heat, dust and noise?",

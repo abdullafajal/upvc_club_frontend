@@ -320,9 +320,9 @@ html:not(.js) .preloader, .no-preloader .preloader { display: none; }
 
 /* ---------- Reveal defaults (only hidden when JS runs) ---------- */
 .js [data-reveal] { opacity: 0; }
-.js [data-split] { visibility: hidden; }
+.js [data-split]:not([data-anim]) { opacity: 0; } /* opacity keeps headings in the accessibility tree */
 .js.reveal-fallback [data-reveal], .reduced-motion [data-reveal] { opacity: 1 !important; transform: none !important; }
-.js.reveal-fallback [data-split], .reduced-motion [data-split] { visibility: visible !important; }
+.js.reveal-fallback [data-split], .reduced-motion [data-split] { opacity: 1 !important; }
 .split-line { overflow: clip; padding-bottom: 0.08em; margin-bottom: -0.08em; }
 
 /* ---------- Hero ---------- */
@@ -868,3 +868,55 @@ img[data-src] { visibility: hidden; }
 .mobile-sticky-cta .back-btn { width: 48px; height: 48px; box-shadow: none; }
 @media (max-width: 1023px) { .back-top { display: none; } }
 @media (max-width: 380px) { .mobile-sticky-cta .btn { padding: 12px 10px; font-size: 14px; gap: 6px; } .mobile-sticky-cta .btn .material-icons-outlined { font-size: 18px; } }
+
+
+/* ---------- Repair: window anatomy with hotspots ---------- */
+.repair-grid { display: grid; gap: clamp(40px, 6vw, 80px); align-items: center; }
+@media (min-width: 1000px) { .repair-grid { grid-template-columns: 1fr 1.05fr; } }
+.anatomy { position: relative; padding: clamp(28px, 5vw, 56px) clamp(18px, 4vw, 48px) 18px; border-radius: var(--radius-l);
+  background: linear-gradient(160deg, #13284a, #0b1b33 60%); border: 1px solid rgba(255, 255, 255, 0.08); overflow: hidden; isolation: isolate; }
+.anatomy-glow { position: absolute; inset: -20% -10% auto; height: 80%; z-index: -1;
+  background: radial-gradient(closest-side, rgba(222, 27, 27, 0.28), transparent 70%); filter: blur(10px); }
+.anatomy::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.35;
+  background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 32px 32px; }
+.anatomy-box { position: relative; aspect-ratio: 1500 / 1200; }
+.anatomy-art, .anatomy-art svg { width: 100%; height: 100%; }
+.anatomy-box::before { content: ""; position: absolute; left: 6%; right: 6%; bottom: -4%; height: 10%; border-radius: 50%; background: rgba(0, 0, 0, 0.45); filter: blur(18px); z-index: -1; }
+.hot { position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; z-index: 2; display: grid; place-items: center; }
+.hot-dot { position: relative; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--red); color: #fff; font-weight: 800; font-size: 14px; box-shadow: 0 6px 18px rgba(222, 27, 27, 0.45); transition: transform 0.35s var(--ease-out), background-color 0.3s, color 0.3s; }
+.hot-dot::before, .hot-dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--red); animation: hot-ping 2.2s var(--ease-out) infinite; }
+.hot-dot::after { animation-delay: 1.1s; }
+@keyframes hot-ping { from { transform: scale(1); opacity: 0.8; } to { transform: scale(2.4); opacity: 0; } }
+.hot:hover .hot-dot, .hot.is-active .hot-dot { transform: scale(1.18); background: #fff; color: var(--red); }
+.hot-tip { position: absolute; left: 46px; top: -8px; min-width: 170px; padding: 10px 14px; border-radius: 14px; background: #fff; color: var(--ink);
+  font-size: 13px; line-height: 1.35; box-shadow: var(--shadow-3); opacity: 0; transform: translateY(6px) scale(0.96); transform-origin: left center;
+  transition: opacity 0.25s, transform 0.35s var(--ease-out); pointer-events: none; text-align: left; }
+.hot-tip b { display: block; font-size: 14px; margin-bottom: 2px; }
+.hot.is-active .hot-tip, .hot:hover .hot-tip, .hot:focus-visible .hot-tip { opacity: 1; transform: none; }
+.hot[style*="left:86%"] .hot-tip, .hot[style*="left:72%"] .hot-tip { left: auto; right: 46px; transform-origin: right center; }
+.hot[style*="top:9"] .hot-tip { top: -52px; }
+.anatomy-hint { margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 600; color: rgba(255, 255, 255, 0.6); }
+.anatomy-hint .material-icons-outlined { color: var(--red); font-size: 18px; }
+@media (max-width: 640px) { .hot-dot { width: 28px; height: 28px; font-size: 12px; } .hot-tip { min-width: 140px; font-size: 12px; } }
+
+.repair-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 28px; counter-reset: none; }
+.repair-legend li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 15px; cursor: default; transition: background-color 0.3s, border-color 0.3s, transform 0.4s var(--ease-out); }
+.repair-legend li span { width: 26px; height: 26px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--red); font-size: 12px; font-weight: 800; }
+.repair-legend li.is-active { background: rgba(222, 27, 27, 0.18); border-color: rgba(222, 27, 27, 0.6); transform: translateX(4px); }
+@media (max-width: 420px) { .repair-legend { grid-template-columns: 1fr; } }
+
+.repair-hero { padding-bottom: clamp(56px, 8vw, 110px); }
+.repair-hero .breadcrumb a, .repair-hero .breadcrumb { color: rgba(255, 255, 255, 0.6); }
+.repair-hero .h1 .serif { color: var(--red); }
+.repair-facts { display: grid; gap: 10px; margin-top: 28px; }
+.repair-facts li { display: flex; align-items: center; gap: 10px; color: rgba(255, 255, 255, 0.8); font-weight: 600; font-size: 15px; }
+.repair-facts .material-icons-outlined { color: var(--red); }
+.repair-card { position: relative; transition: transform 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out), outline-color 0.3s; outline: 2px solid transparent; outline-offset: -2px; }
+.repair-card.is-active { outline-color: var(--red); transform: translateY(-6px); box-shadow: var(--shadow-2); }
+.repair-num { font-size: 40px; font-weight: 800; letter-spacing: -0.04em; color: var(--paper-3); }
+.repair-card.is-active .repair-num { color: var(--red); }
+.site-header.on-dark:not(.is-scrolled) .menu-btn { background: #fff; color: var(--ink); }
+.site-header.on-dark:not(.is-scrolled) .header-cta { --btn-bg: #fff; --btn-fg: var(--ink); }
+.site-header.on-dark:not(.is-scrolled) { background: var(--ink); }
