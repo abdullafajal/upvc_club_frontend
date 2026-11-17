@@ -71,30 +71,39 @@
         <a href="products.html" class="link-arrow" data-reveal>All products <span class="material-icons-outlined">arrow_forward</span></a>
     </div>
     <div class="hscroll-track" id="home-categories">
-        <a href="products.html" class="hcard" data-cursor="Explore">
-            <img class="dynamic-img-home-profile" src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80" alt="UPVC windows" loading="lazy">
+        <a href="products.html?category=windows" class="hcard" data-cursor="Explore">
+            <div class="scene scene-dark" data-type="sliding-window"><div class="scene-art" data-render="sliding-window" data-finish="white"></div></div>
             <span class="hcard-num">01</span><span class="hcard-go"><span class="material-icons-outlined">arrow_forward</span></span>
             <div class="hcard-body"><h3 class="h3">UPVC Windows</h3><p style="opacity:.75">Sliding, casement &amp; tilt-turn</p></div>
         </a>
-        <a href="products.html" class="hcard" data-cursor="Explore">
-            <img class="dynamic-img-home-balcony" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80" alt="Balcony glazing" loading="lazy">
+        <a href="products.html?category=balcony-solutions" class="hcard" data-cursor="Explore">
+            <div class="hcard-fallback"><span class="material-icons-outlined">image</span></div>
+            <img class="dynamic-img-home-balcony" alt="Balcony covered with sliding glass" loading="lazy">
             <span class="hcard-num">02</span><span class="hcard-go"><span class="material-icons-outlined">arrow_forward</span></span>
-            <div class="hcard-body"><h3 class="h3">Balcony Coverings</h3><p style="opacity:.75">Slim sliding glazing, dust-proof</p></div>
+            <div class="hcard-body"><h3 class="h3">Balcony Coverings</h3><p style="opacity:.75">Slim glazing — no dust, no noise</p></div>
         </a>
-        <a href="products.html" class="hcard" data-cursor="Explore">
-            <img class="dynamic-img-home-glass" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80" alt="Glass partitions" loading="lazy">
+        <a href="products.html?category=doors" class="hcard" data-cursor="Explore">
+            <div class="scene scene-dark" data-type="bifold-door"><div class="scene-art" data-render="bifold-door" data-finish="anthracite"></div></div>
             <span class="hcard-num">03</span><span class="hcard-go"><span class="material-icons-outlined">arrow_forward</span></span>
-            <div class="hcard-body"><h3 class="h3">Glass Partitions</h3><p style="opacity:.75">Toughened &amp; structural glazing</p></div>
+            <div class="hcard-body"><h3 class="h3">Doors</h3><p style="opacity:.75">Sliding &amp; slide-and-fold</p></div>
         </a>
-        <a href="products.html" class="hcard" data-cursor="Explore">
-            <img class="dynamic-img-home-jali" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80" alt="Jali doors" loading="lazy">
+        <a href="products.html?category=glass-partitions" class="hcard" data-cursor="Explore">
+            <div class="hcard-fallback"><span class="material-icons-outlined">image</span></div>
+            <img class="dynamic-img-home-glass" alt="Frameless glass shower enclosure" loading="lazy">
             <span class="hcard-num">04</span><span class="hcard-go"><span class="material-icons-outlined">arrow_forward</span></span>
-            <div class="hcard-body"><h3 class="h3">Jali &amp; Mesh Doors</h3><p style="opacity:.75">Security with airflow</p></div>
+            <div class="hcard-body"><h3 class="h3">Glass &amp; Shower</h3><p style="opacity:.75">Partitions &amp; frameless enclosures</p></div>
         </a>
-        <a href="products.html" class="hcard" data-cursor="Explore">
-            <img class="dynamic-img-home-stats" src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=900&q=80" alt="Aluminium doors" loading="lazy">
+        <a href="products.html?category=safety-mesh" class="hcard" data-cursor="Explore">
+            <div class="hcard-fallback"><span class="material-icons-outlined">image</span></div>
+            <img class="dynamic-img-home-jali" alt="Decorative jali door" loading="lazy">
             <span class="hcard-num">05</span><span class="hcard-go"><span class="material-icons-outlined">arrow_forward</span></span>
-            <div class="hcard-body"><h3 class="h3">Doors &amp; Hardware</h3><p style="opacity:.75">French, sliding &amp; swing doors</p></div>
+            <div class="hcard-body"><h3 class="h3">Jali &amp; Safety Doors</h3><p style="opacity:.75">Security with airflow</p></div>
+        </a>
+        <a href="products.html?category=wall-ceiling-decor" class="hcard" data-cursor="Explore">
+            <div class="hcard-fallback"><span class="material-icons-outlined">image</span></div>
+            <img class="dynamic-img-home-profile" alt="Decorative profile wall panels" loading="lazy">
+            <span class="hcard-num">06</span><span class="hcard-go"><span class="material-icons-outlined">arrow_forward</span></span>
+            <div class="hcard-body"><h3 class="h3">Profiles &amp; Wall Decor</h3><p style="opacity:.75">Louvers and decorative panels</p></div>
         </a>
     </div>
     <div class="hscroll-progress"><i></i></div>
@@ -252,6 +261,7 @@
 </section>
 <!-- @scripts -->
 <script>
+document.querySelectorAll("[data-render]").forEach((el) => { el.innerHTML = UPVCFrames.svg(el.dataset.render, { finish: el.dataset.finish, glass: "clear" }); });
 (async function () {
     const grid = document.getElementById("featured-grid");
     let products = await fetchFeaturedProducts();

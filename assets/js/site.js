@@ -433,32 +433,44 @@
     }
   }
 
-  /* Product placeholder art */
+  /* Product artwork. The product photos currently stored in the backend are
+     generic stock images that often don't match the product, so cards show an
+     accurate rendering instead. Set USE_PRODUCT_PHOTOS to true once real
+     photos of each product have been uploaded in the admin. */
+  const USE_PRODUCT_PHOTOS = false;
+  UPVC.usePhotos = USE_PRODUCT_PHOTOS;
+  UPVC.productType = (product) => (window.UPVCFrames ? UPVCFrames.guessType(product) : "sliding-window");
   UPVC.productArt = function (product, opts) {
     if (!window.UPVCFrames) return "";
-    return UPVCFrames.svg(UPVCFrames.guessType(product), Object.assign({ finish: "white", glass: "clear" }, opts || {}));
+    const type = UPVCFrames.guessType(product);
+    return UPVCFrames.svg(type, Object.assign({ finish: UPVCFrames.SHOWCASE_FINISH[type] || "white", glass: "clear" }, opts || {}));
   };
+  UPVC.productScene = function (product, opts) {
+    return `<div class="scene" data-type="${UPVC.productType(product)}"><div class="scene-art">${UPVC.productArt(product, opts)}</div></div>`;
+  };
+  UPVC.productMedia = function (product) {
+    return USE_PRODUCT_PHOTOS && product.image
+      ? `<img src="${UPVC.esc(product.image)}" alt="${UPVC.esc(product.name)}" loading="lazy">`
+      : UPVC.productScene(product);
+  };
+  UPVC.quoteUrl = (product, extra) => "contact.html?product=" + encodeURIComponent(product.name) + (extra ? "&config=" + encodeURIComponent(extra) : "");
   UPVC.esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  UPVC.price = (v) => {
-    const n = parseFloat(v);
-    return isNaN(n) ? UPVC.esc(v) : n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
-  };
-  UPVC.unit = (u) => ({ sqft: "sq.ft", rft: "r.ft", nos: "piece", set: "set" }[u] || u || "");
 
   UPVC.productCard = function (p) {
     const e = UPVC.esc;
     const url = "product-detail.html?slug=" + encodeURIComponent(p.slug);
-    const media = p.image ? `<img src="${e(p.image)}" alt="${e(p.name)}" loading="lazy">` : `<div class="ph">${UPVC.productArt(p)}</div>`;
+    const blurb = (p.description || "").split(/[.\n]/)[0];
     return `<article class="pcard" data-reveal>
         <div class="pcard-media">
-          <a href="${url}" class="pcard-link" data-cursor="View" aria-label="${e(p.name)}">${media}</a>
+          <a href="${url}" class="pcard-link" data-cursor="View" aria-label="${e(p.name)}">${UPVC.productMedia(p)}</a>
           ${p.category ? `<span class="pcard-tag">${e(p.category.name)}</span>` : ""}
           <a class="pcard-try" href="visualizer.html?product=${encodeURIComponent(p.slug)}"><span class="material-icons-outlined">view_in_ar</span>Try at home</a>
         </div>
-        <a href="${url}" class="pcard-row">
-          <div><h3 class="pcard-title">${e(p.name)}</h3><p class="pcard-price">From <b>₹${UPVC.price(p.base_price)}</b> / ${e(UPVC.unit(p.unit))}</p></div>
-          <span class="pcard-arrow"><span class="material-icons-outlined">arrow_forward</span></span>
-        </a>
+        <div class="pcard-row">
+          <a href="${url}" class="pcard-text"><h3 class="pcard-title">${e(p.name)}</h3>${blurb ? `<p class="pcard-blurb">${e(blurb)}</p>` : ""}</a>
+          <a href="${url}" class="pcard-arrow" aria-label="View ${e(p.name)}"><span class="material-icons-outlined">arrow_forward</span></a>
+        </div>
+        <a class="pcard-quote" href="${UPVC.quoteUrl(p)}"><span class="material-icons-outlined">request_quote</span>Price on request · <b>Get a quote</b></a>
       </article>`;
   };
 

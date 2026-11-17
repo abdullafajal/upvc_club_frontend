@@ -31,6 +31,9 @@
     { id: "balcony", name: "Balcony Glazing", w: 3000, h: 1500, icon: "balcony" },
     { id: "partition", name: "Glass Partition", w: 2400, h: 2400, icon: "space_dashboard" },
     { id: "jali-door", name: "Jali / Mesh Door", w: 1000, h: 2200, icon: "grid_on" },
+    { id: "bifold-door", name: "Slide & Fold Door", w: 3000, h: 2200, icon: "view_week" },
+    { id: "shower", name: "Shower Enclosure", w: 1200, h: 2000, icon: "shower" },
+    { id: "louvers", name: "WPC Louvers", w: 1800, h: 2400, icon: "view_agenda" },
   ];
 
   const byId = (list, id, fallback) => list.find((x) => x.id === id) || fallback || list[0];
@@ -209,6 +212,44 @@
         frame(0, 0, W, H, t);
         break;
       }
+      case "bifold-door": {
+        const t = 70, s = 64, n = 5;
+        const inner = W - 2 * t, pw = inner / n;
+        for (let i = 0; i < n; i++) {
+          const x = t + i * pw;
+          sash(x, t, pw, H - 2 * t, s);
+          // hinge knuckles between leaves
+          if (i > 0) for (const hy of [H * 0.15, H * 0.5, H * 0.85]) out.push(`<rect x="${x - 7}" y="${hy - 30}" width="14" height="60" rx="6" fill="${fin.handle}" stroke="rgba(0,0,0,0.35)" stroke-width="2"/>`);
+        }
+        handleV(t + 2 * pw - s / 2, H * 0.52, 260);
+        frame(0, 0, W, H, t);
+        out.push(`<rect x="${t}" y="${H - t + 20}" width="${inner}" height="10" fill="rgba(0,0,0,0.25)"/>`);
+        break;
+      }
+      case "shower": {
+        // frameless: two glass panels, chrome hinges and a slim top channel
+        const g = 14, base = 50, split = W * 0.42;
+        pane(0, 0, split - g / 2, H - base);
+        pane(split + g / 2, 0, W - split - g / 2, H - base);
+        out.push(`<rect x="0" y="0" width="${W}" height="22" fill="url(#${p}-ph)"/>`);
+        out.push(`<rect x="0" y="${H - base}" width="${W}" height="${base}" fill="url(#${p}-ph)"/>`);
+        for (const hy of [H * 0.18, H * 0.78]) out.push(`<rect x="${split - 34}" y="${hy - 40}" width="68" height="80" rx="10" fill="${fin.light}" stroke="${fin.edge}" stroke-width="4"/>`);
+        out.push(`<rect x="${split + 90}" y="${H * 0.36}" width="26" height="${H * 0.26}" rx="13" fill="${fin.light}" stroke="${fin.edge}" stroke-width="4"/>`);
+        out.push(`<rect x="${split + 70}" y="${H * 0.4}" width="30" height="16" fill="${fin.edge}"/><rect x="${split + 70}" y="${H * 0.58}" width="30" height="16" fill="${fin.edge}"/>`);
+        break;
+      }
+      case "louvers": {
+        // vertical WPC slats on a dark backing
+        const n = 14, gap = 22, sw = (W - gap * (n + 1)) / n;
+        out.push(`<rect x="0" y="0" width="${W}" height="${H}" fill="#1d1f22"/>`);
+        for (let i = 0; i < n; i++) {
+          const x = gap + i * (sw + gap);
+          bar(x, 0, sw, H);
+          out.push(`<rect x="${x + sw * 0.78}" y="0" width="${sw * 0.22}" height="${H}" fill="rgba(0,0,0,0.25)"/>`);
+        }
+        out.push(`<rect x="0" y="${H - 8}" width="${W}" height="8" fill="rgba(0,0,0,0.35)"/>`);
+        break;
+      }
     }
 
     if (type.id === "sliding-window" || type.id === "casement-window" || type.id === "fixed-window") sill(H - 6, 6);
@@ -262,19 +303,29 @@
   function guessType(product) {
     const s = [product && product.name, product && product.slug, product && product.category && (product.category.name + " " + product.category.slug)]
       .filter(Boolean).join(" ").toLowerCase();
-    if (/jali|mesh|net|security/.test(s)) return "jali-door";
-    if (/balcon|enclos|covering/.test(s)) return "balcony";
-    if (/partition|office|cabin|shower|structural|glazing/.test(s)) return "partition";
+    if (/louver|louvre|wpc|panel|cladding|decor/.test(s)) return "louvers";
+    if (/shower|cubicle|enclosure/.test(s)) return "shower";
+    if (/jali|mesh|net|security|safety/.test(s)) return "jali-door";
+    if (/balcon/.test(s)) return "balcony";
+    if (/fold/.test(s)) return "bifold-door";
+    if (/partition|office|cabin|structural|glazing/.test(s)) return "partition";
     if (/sliding/.test(s) && /door/.test(s)) return "sliding-door";
-    if (/french|casement door|swing door|hinged door|door/.test(s)) return "french-door";
+    if (/door/.test(s)) return "french-door";
     if (/casement|openable|tilt/.test(s)) return "casement-window";
     if (/fixed|picture|ventilator/.test(s)) return "fixed-window";
     return "sliding-window";
   }
 
+  /* A finish that suits each product type when shown as artwork. */
+  const SHOWCASE_FINISH = {
+    "sliding-window": "white", "casement-window": "anthracite", "fixed-window": "black", "sliding-door": "black",
+    "french-door": "golden-oak", balcony: "white", partition: "black", "jali-door": "anthracite",
+    "bifold-door": "anthracite", shower: "silver", louvers: "walnut",
+  };
+
   function toDataURL(svg) {
     return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   }
 
-  global.UPVCFrames = { TYPES, FINISHES, GLASSES, svg: build, guessType, toDataURL, byId };
+  global.UPVCFrames = { TYPES, FINISHES, GLASSES, SHOWCASE_FINISH, svg: build, guessType, toDataURL, byId };
 })(window);
