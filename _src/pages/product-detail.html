@@ -12,6 +12,7 @@
 <section style="padding-bottom:clamp(64px,8vw,120px)">
     <div class="container pd">
         <div>
+            <div class="pd-media" id="pd-photo" data-img-reveal hidden></div>
             <div class="pd-media" id="pd-media" data-img-reveal></div>
             <div class="flex wrap between center gap mt" data-reveal>
                 <div>
@@ -85,12 +86,21 @@
     (p.description || "").split(/\n+/).filter(Boolean).forEach((para) => { const el = document.createElement("p"); el.textContent = para; el.style.marginBottom = "10px"; desc.appendChild(el); });
 
     const media = document.getElementById("pd-media");
+    const photo = UPVC.productPhoto(p);
+    if (photo) {
+        // real-world photo first, the configurable rendering below it
+        const box = document.getElementById("pd-photo");
+        box.innerHTML = `<img src="${UPVC.esc(photo)}" alt="${UPVC.esc(p.name)}">`;
+        box.hidden = false;
+        media.classList.add("mt");
+        media.style.aspectRatio = "16 / 11";
+    }
     const type = UPVC.productType(p);
     let finish = UPVCFrames.SHOWCASE_FINISH[type] || "white";
     const row = document.getElementById("finish-row");
     row.innerHTML = UPVCFrames.FINISHES.map((f) => `<button class="finish-dot" data-finish="${f.id}" title="${UPVC.esc(f.name)}" aria-label="${UPVC.esc(f.name)}" style="background:${f.wood ? `repeating-linear-gradient(100deg, ${f.fill} 0 4px, ${f.edge} 4px 6px, ${f.light} 6px 9px)` : `linear-gradient(135deg, ${f.light}, ${f.fill} 55%, ${f.edge})`}"></button>`).join("");
     function paint() {
-        media.innerHTML = UPVC.usePhotos && p.image ? `<img src="${UPVC.esc(p.image)}" alt="${UPVC.esc(p.name)}">` : UPVC.productScene(p, { finish });
+        media.innerHTML = UPVC.productScene(p, { finish });
         const f = UPVCFrames.byId(UPVCFrames.FINISHES, finish);
         document.getElementById("finish-name").textContent = f.name;
         row.querySelectorAll(".finish-dot").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.finish === finish)));

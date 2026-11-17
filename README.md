@@ -51,3 +51,7 @@ The camera needs a secure context: it works on `https://` (GitHub Pages) and on 
 ## Security
 
 Contact form submissions are validated by the backend using a time-stamped signed math CAPTCHA. Visualizer photos never leave the device.
+
+## Photo credits
+
+Product and category photos in `assets/img/stock/` are free stock photos from [Pexels](https://www.pexels.com/license/) (no attribution required), chosen to illustrate each product type — they are not UPVC Club installations. Pexels photo IDs: sliding-window 1457842, casement-window 2343465, tilt-turn-window 6588581, sliding-door 1571463, bifold-door 7587880, balcony 3201763, shower 7546320, louvers 3316926, windows-home 6283961. Replace them with photos of your own work when available (or upload product photos in the admin and set `USE_PRODUCT_PHOTOS = true` in `assets/js/site.js`).

@@ -448,9 +448,23 @@
   UPVC.productScene = function (product, opts) {
     return `<div class="scene" data-type="${UPVC.productType(product)}"><div class="scene-art">${UPVC.productArt(product, opts)}</div></div>`;
   };
+  /* Free Pexels photos (pexels.com/license) matched by hand to each product
+     type, stored in assets/img/stock/. Types without a fitting photo
+     (partition, jali door, ...) keep the rendering. */
+  const STOCK_BY_SLUG = { "tilt-turn-window": "tilt-turn-window" };
+  const STOCK_BY_TYPE = {
+    "sliding-window": "sliding-window", "casement-window": "casement-window", "sliding-door": "sliding-door",
+    "bifold-door": "bifold-door", balcony: "balcony", shower: "shower", louvers: "louvers",
+  };
+  UPVC.stockPhoto = function (product) {
+    const key = STOCK_BY_SLUG[product.slug] || STOCK_BY_TYPE[UPVC.productType(product)];
+    return key ? `assets/img/stock/${key}.jpg` : null;
+  };
+  UPVC.productPhoto = (product) => (USE_PRODUCT_PHOTOS && product.image) || UPVC.stockPhoto(product);
   UPVC.productMedia = function (product) {
-    return USE_PRODUCT_PHOTOS && product.image
-      ? `<img src="${UPVC.esc(product.image)}" alt="${UPVC.esc(product.name)}" loading="lazy">`
+    const src = UPVC.productPhoto(product);
+    return src
+      ? `<img src="${UPVC.esc(src)}" alt="${UPVC.esc(product.name)}" loading="lazy" decoding="async">`
       : UPVC.productScene(product);
   };
   UPVC.quoteUrl = (product, extra) => "contact.html?product=" + encodeURIComponent(product.name) + (extra ? "&config=" + encodeURIComponent(extra) : "");
