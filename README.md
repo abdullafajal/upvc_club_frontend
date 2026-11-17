@@ -1,47 +1,53 @@
 # UPVC Club Frontend
 
-A modern, responsive, and blazing-fast headless frontend for **UPVC Club**, built to provide a premium user experience for clients looking for UPVC & Aluminium fabrication in Noida & NCR.
+A modern, fast, static frontend for **UPVC Club** — premium UPVC & aluminium fabrication in Noida & NCR. It talks to the Django REST API in [`upvc_club`](https://github.com/abdullafajal/upvc_club) (`/api/...`) and is deployed to GitHub Pages.
 
-## 🚀 Features
+## Features
 
-- **Progressive Web App (PWA)**: Fully installable as a native app on iOS, Android, and Desktop, complete with intelligent Service Worker offline caching.
-- **Dynamic Content Integration**: Headless architecture using Vanilla JavaScript (`api.js`) to seamlessly fetch products, portfolio images, and dynamic site settings (phone, email, WhatsApp) from the Django REST API backend.
-- **Custom Math CAPTCHA**: A built-in, cryptographically secure math CAPTCHA to protect the contact forms from bots—without relying on privacy-invasive third parties.
-- **SEO Optimized**: Fully integrated with rich meta tags, canonical links, Open Graph data, and Schema.org `LocalBusiness` structured data for top Google ranking.
-- **Responsive Animations**: Beautiful UI enhanced with micro-interactions, CSS transitions, and AOS (Animate on Scroll) for a premium feel.
+- **Try at Home (camera visualizer)** — `visualizer.html`. Customers open their phone camera (or upload a photo / use a sample room), drag four corners onto a window or wall opening and see a window, door, balcony glazing, glass partition or jali door placed in true perspective. They can switch style, frame finish (white, anthracite, black, golden oak, walnut, silver, champagne) and glass (clear, grey, bronze, reflective, frosted), freeze the camera, capture a photo, save/share it and request a quote pre-filled with their configuration. Everything runs on the device — nothing is uploaded.
+  Every product card and product page has a **Try at home** button that opens the visualizer with that product's style pre-selected.
+- **Scroll-driven motion** — Lenis smooth scrolling and GSAP ScrollTrigger: line-by-line headline reveals, a hero image that expands to full-bleed, a pinned horizontal collection scroller, word-by-word statement fill, velocity-reactive marquees, sticky stacking cards, image wipe reveals, parallax, animated counters, magnetic buttons, a custom cursor and page-transition curtains. Respects `prefers-reduced-motion`.
+- **Dynamic content** from the Django API: products, categories, featured products, portfolio, site settings (phone, email, address, images, stats), contact form with signed math CAPTCHA, and order/quotation tracking.
+- **PWA** — installable, offline-capable service worker, app shortcuts for *Try at Home* and *Track Order*.
+- **SEO** — per-page titles/descriptions, canonical + Open Graph tags, `LocalBusiness` structured data, `sitemap.xml`.
 
-## 🛠 Tech Stack
+## Project structure
 
-- **HTML5 & Semantic Structure**
-- **Vanilla CSS / Utility Classes** (Tailwind-inspired structure)
-- **Vanilla JavaScript** (ES6+ with `async/await`)
-- **Service Workers & Web App Manifest** (PWA Setup)
+```
+_src/
+  layout.html          shared <head>, header, mobile menu, dock, scripts
+  footer.html          shared footer
+  pages/*.html         page bodies (JSON front-matter + content + page scripts)
+  legal-*.frag         privacy / terms text
+build_site.py          builds the root *.html files from _src/
+assets/css/site.css            design system + components
+assets/css/visualizer.css      Try-at-Home UI
+assets/js/api.js               API client + site-settings hydration
+assets/js/site.js              smooth scroll, scroll animations, header/menu, product cards
+assets/js/frames.js            procedural SVG windows/doors (types, finishes, glass)
+assets/js/visualizer.js        camera, perspective (WebGL homography), gestures, capture/share
+assets/vendor/                 gsap, ScrollTrigger, SplitText (GSAP 3.13), lenis (1.3.4)
+```
 
-## 💻 Local Development
+**Edit pages in `_src/`, then run `python3 build_site.py`.** The root `*.html` files are generated — commit them too, since GitHub Pages serves the repository as-is.
 
-Since this frontend connects to a REST API, you need to ensure the backend is running locally.
+## Local development
 
-1. **Start the Backend (Django):**
+1. Start the backend:
    ```bash
    cd ../upvc_club
-   python manage.py runserver
+   python manage.py runserver   # http://localhost:8000
    ```
-   *(Ensure it is running on `http://localhost:8000`)*
-
-2. **Run the Frontend:**
-   Use any local server to serve the HTML files. If you have Python installed, you can easily start an HTTP server:
+2. Serve the frontend:
    ```bash
    cd upvc_club_frontend
-   python -m http.server 5500
+   python3 build_site.py
+   python3 -m http.server 5500
    ```
-3. Open `http://localhost:5500` in your web browser.
+3. Open `http://localhost:5500`. When the site runs on `localhost`, `api.js` automatically uses `http://localhost:8000/api`; everywhere else it uses `https://upvc.pythonanywhere.com/api`. You can override it by setting `window.UPVC_API` before `api.js` loads.
 
-## 📁 Repository Structure
+The camera needs a secure context: it works on `https://` (GitHub Pages) and on `http://localhost`, but not on a plain-http LAN address. To test on a phone, use an https tunnel or the deployed site.
 
-- `/assets/js/api.js` - The core file handling all asynchronous API calls and dynamic DOM updates.
-- `/manifest.json` & `/sw.js` - Service Worker and PWA configuration for caching and offline support.
-- `/*.html` - Statically generated and meticulously SEO-optimized pages (`index.html`, `products.html`, `contact.html`, etc.).
-- `/*.py` - Automation scripts (e.g., `build_pwa.py`, `update_seo.py`) used to rapidly inject code updates across all HTML files.
+## Security
 
-## 🔒 Security
-Form submissions are validated directly by the backend using a time-stamped signature for the custom Math CAPTCHA, ensuring no data can be spoofed or submitted by automated scripts.
+Contact form submissions are validated by the backend using a time-stamped signed math CAPTCHA. Visualizer photos never leave the device.

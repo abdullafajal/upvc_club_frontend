@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0b1b33">
+    <title>{{title}}</title>
+    <meta name="description" content="{{description}}">
+    <meta name="keywords" content="UPVC windows, Aluminium doors, Glass partitions, Balcony glazing, Fabrication Noida, UPVC Club, Soundproof windows, Window visualizer">
+    <link rel="canonical" href="https://upvcclub.com/{{path}}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://upvcclub.com/{{path}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="https://upvcclub.com/assets/icons/icon-512x512.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://upvcclub.com/{{path}}">
+    <meta property="twitter:title" content="{{title}}">
+    <meta property="twitter:description" content="{{description}}">
+    <meta property="twitter:image" content="https://upvcclub.com/assets/icons/icon-512x512.png">
+
+    <script>
+        document.documentElement.classList.add("js");
+        try { if (sessionStorage.getItem("upvc-curtain")) { document.documentElement.classList.add("curtain-in"); sessionStorage.removeItem("upvc-curtain"); } } catch (e) {}
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined&display=block" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/site.css?v={{version}}">
+{{head}}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXDMJYKD5T"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MXDMJYKD5T');
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HomeAndConstructionBusiness",
+      "name": "UPVC Club",
+      "image": "https://upvcclub.com/assets/icons/icon-512x512.png",
+      "url": "https://upvcclub.com/",
+      "telephone": "+919582010747",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Greater Noida",
+        "addressRegion": "Uttar Pradesh",
+        "addressCountry": "IN"
+      },
+      "description": "Premium UPVC and Aluminium Fabrication, Windows, Doors, and Balcony Coverings in Noida & NCR."
+    }
+    </script>
+
+    <link rel="manifest" href="./manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="./assets/icons/icon-512x512.png">
+    <link rel="icon" type="image/png" href="./assets/icons/icon-192x192.png">
+</head>
+<body class="{{body_class}}">
+<a class="skip-link" href="#main">Skip to content</a>
+{{preloader}}
+<div class="curtain" aria-hidden="true"></div>
+
+<header class="site-header" id="site-header">
+    <div class="container header-inner">
+        <a href="index.html" class="brand" aria-label="UPVC Club home">
+            <img src="./assets/icons/logo-navy-red.png" alt="" width="44" height="22">
+            <span class="brand-word"><b>UPVC</b><i>Club</i></span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+            <a href="index.html" data-nav>Home</a>
+            <a href="products.html" data-nav>Products</a>
+            <a href="visualizer.html" data-nav class="nav-try"><span class="material-icons-outlined">view_in_ar</span>Try at Home</a>
+            <a href="portfolio.html" data-nav>Work</a>
+            <a href="about.html" data-nav>About</a>
+            <a href="track-order.html" data-nav>Track Order</a>
+        </nav>
+        <a href="contact.html" class="btn btn-s header-cta magnetic">Free Quote <span class="material-icons-outlined arrow">arrow_forward</span></a>
+        <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><span></span></button>
+    </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Mobile">
+        <a href="index.html" data-nav><small>01</small>Home</a>
+        <a href="products.html" data-nav><small>02</small>Products</a>
+        <a href="visualizer.html" data-nav><small>03</small>Try at Home</a>
+        <a href="portfolio.html" data-nav><small>04</small>Our Work</a>
+        <a href="about.html" data-nav><small>05</small>About</a>
+        <a href="track-order.html" data-nav><small>06</small>Track Order</a>
+        <a href="contact.html" data-nav><small>07</small>Contact</a>
+    </nav>
+    <div class="mobile-menu-foot">
+        <a href="tel:+919582010747" class="dynamic-phone">+91 95820 10747</a>
+        <a href="mailto:info@upvcclub.com" class="dynamic-email">info@upvcclub.com</a>
+        <span>Noida &amp; Delhi NCR</span>
+    </div>
+</div>
+
+<main id="main">
+{{content}}
+</main>
+
+{{footer}}
+
+<nav class="dock" aria-label="Quick actions">
+    <a href="index.html" data-nav><span class="material-icons-outlined">home</span>Home</a>
+    <a href="products.html" data-nav><span class="material-icons-outlined">grid_view</span>Products</a>
+    <a href="visualizer.html" class="dock-main"><span class="material-icons-outlined">view_in_ar</span>Try at home</a>
+    <a href="track-order.html" data-nav><span class="material-icons-outlined">local_shipping</span>Track</a>
+    <a href="contact.html" data-nav><span class="material-icons-outlined">chat_bubble_outline</span>Quote</a>
+</nav>
+
+<a href="#" target="_blank" rel="noopener" class="wa-fab dynamic-whatsapp-link hidden" aria-label="Chat with us on WhatsApp" data-wa-text="Hi UPVC Club, I'd like a quote.">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.43 9.43 0 0 1-1.45-5.03c0-5.2 4.24-9.44 9.45-9.44a9.4 9.4 0 0 1 9.43 9.45c0 5.2-4.24 9.43-9.44 9.43zm8.03-17.46A11.27 11.27 0 0 0 12.05.72C5.8.72.7 5.8.7 12.07c0 2 .52 3.95 1.52 5.67L.6 23.65l6.05-1.59a11.33 11.33 0 0 0 5.4 1.38h.01c6.26 0 11.35-5.1 11.35-11.36 0-3.03-1.18-5.89-3.33-8.04z"/></svg>
+</a>
+
+<script src="./assets/vendor/gsap.min.js"></script>
+<script src="./assets/vendor/ScrollTrigger.min.js"></script>
+<script src="./assets/vendor/SplitText.min.js"></script>
+<script src="./assets/vendor/lenis.min.js"></script>
+<script src="./assets/js/frames.js?v={{version}}"></script>
+<script src="./assets/js/api.js?v={{version}}"></script>
+<script src="./assets/js/site.js?v={{version}}"></script>
+{{scripts}}
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+</script>
+</body>
+</html>

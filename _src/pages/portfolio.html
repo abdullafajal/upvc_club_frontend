@@ -1,0 +1,96 @@
+<!--
+{"title": "Our Work — UPVC & Aluminium Projects in Noida & NCR | UPVC Club", "description": "Recent UPVC window, door, balcony glazing and glass partition projects by UPVC Club across Noida, Greater Noida and Delhi NCR.", "out": "portfolio.html"}
+-->
+<section class="page-head">
+    <div class="container">
+        <span class="eyebrow" data-reveal data-reveal-now>Our work</span>
+        <h1 class="h1 mt balance" data-split data-split-now>Homes &amp; spaces we've <span class="serif">transformed</span>.</h1>
+        <div class="page-head-row">
+            <p class="lead" data-reveal data-reveal-now data-delay="0.2">From penthouse balconies to corporate offices — a look at recent installations across Noida &amp; NCR.</p>
+            <div class="stat" style="border:0;padding:0" data-reveal data-reveal-now data-delay="0.3"><div class="stat-num dynamic-stat-projects" data-count>500+</div><div class="stat-label">Projects completed</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section-s" style="padding-top:0">
+    <div class="container">
+        <div class="filter-bar mb" id="portfolio-filters" role="tablist" aria-label="Filter projects">
+            <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+        </div>
+        <div class="masonry" id="portfolio-grid">
+            <div class="work skeleton" style="aspect-ratio:4/5"></div>
+            <div class="work skeleton" style="aspect-ratio:1"></div>
+            <div class="work skeleton" style="aspect-ratio:4/3"></div>
+        </div>
+    </div>
+</section>
+
+<section class="section cta-big">
+    <div class="container">
+        <span class="eyebrow" data-reveal>Your home next?</span>
+        <h2 class="display mt balance" data-split>Let's build <span class="serif">yours</span>.</h2>
+        <div class="flex wrap gap-s mt-l" style="justify-content:center" data-reveal>
+            <a href="contact.html" class="btn btn-red magnetic">Start a project <span class="material-icons-outlined arrow">arrow_forward</span></a>
+            <a href="visualizer.html" class="btn btn-ghost"><span class="material-icons-outlined">view_in_ar</span> Try it in your room</a>
+        </div>
+    </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project image">
+    <button class="lightbox-close" aria-label="Close"><span class="material-icons-outlined">close</span></button>
+    <figure><img alt=""><figcaption></figcaption></figure>
+</div>
+<!-- @scripts -->
+<script>
+(async function () {
+    const grid = document.getElementById("portfolio-grid");
+    const filters = document.getElementById("portfolio-filters");
+    const [projects, categories] = await Promise.all([fetchPortfolio(), fetchPortfolioCategories()]);
+    const e = UPVC.esc;
+    if (!Array.isArray(projects) || !projects.length) {
+        grid.innerHTML = '<div class="empty">New projects are being added. <a class="link-arrow" href="contact.html">Ask us for our portfolio</a></div>';
+        grid.classList.remove("masonry");
+        return;
+    }
+    (categories || []).forEach((c) => filters.insertAdjacentHTML("beforeend", `<button class="chip" role="tab" aria-selected="false" data-filter="${e(c)}">${e(c)}</button>`));
+    const ratios = ["4/5", "1/1", "4/3", "3/4", "5/4"];
+    grid.innerHTML = projects.map((p, i) => `
+        <button class="work" data-reveal data-category="${e(p.category)}" data-cursor="Open" style="aspect-ratio:${ratios[i % ratios.length]}" data-src="${e(p.image || "")}" data-title="${e(p.title)}" data-loc="${e(p.location)}">
+            ${p.image ? `<img src="${e(p.image)}" alt="${e(p.title)}" loading="lazy">` : ""}
+            <div class="work-body">
+                <span class="tiny">${e(p.category)}</span>
+                <h3>${e(p.title)}</h3>
+                <p><span class="material-icons-outlined">location_on</span>${e(p.location)}</p>
+            </div>
+        </button>`).join("");
+    UPVC.animate(grid);
+
+    filters.addEventListener("click", (ev) => {
+        const b = ev.target.closest("[data-filter]");
+        if (!b) return;
+        const f = b.dataset.filter;
+        filters.querySelectorAll(".chip").forEach((c) => { c.classList.toggle("is-active", c === b); c.setAttribute("aria-selected", String(c === b)); });
+        grid.querySelectorAll(".work").forEach((w) => {
+            const show = f === "all" || w.dataset.category === f;
+            w.hidden = !show;
+            if (show && w.animate) w.animate([{ opacity: 0, transform: "translateY(24px)" }, { opacity: 1, transform: "none" }], { duration: 600, easing: "cubic-bezier(.16,1,.3,1)" });
+        });
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+
+    const lb = document.getElementById("lightbox");
+    const open = (w) => {
+        if (!w.dataset.src) return;
+        lb.querySelector("img").src = w.dataset.src;
+        lb.querySelector("img").alt = w.dataset.title;
+        lb.querySelector("figcaption").innerHTML = `<b>${e(w.dataset.title)}</b> · <span style="opacity:.7">${e(w.dataset.loc)}</span>`;
+        lb.classList.add("is-open");
+        if (UPVC.lenis) UPVC.lenis.stop();
+        lb.querySelector(".lightbox-close").focus();
+    };
+    const close = () => { lb.classList.remove("is-open"); if (UPVC.lenis) UPVC.lenis.start(); };
+    grid.addEventListener("click", (ev) => { const w = ev.target.closest(".work"); if (w) open(w); });
+    lb.addEventListener("click", (ev) => { if (ev.target === lb || ev.target.closest(".lightbox-close")) close(); });
+    document.addEventListener("keydown", (ev) => { if (ev.key === "Escape") close(); });
+})();
+</script>

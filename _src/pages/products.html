@@ -1,0 +1,101 @@
+<!--
+{"title": "Products — UPVC Windows, Doors, Balcony Glazing & Partitions | UPVC Club", "description": "Explore UPVC & aluminium sliding windows, casement windows, doors, balcony coverings, glass partitions and jali doors. Try any of them in your home with your camera.", "out": "products.html"}
+-->
+<section class="page-head">
+    <div class="container">
+        <span class="eyebrow" data-reveal data-reveal-now>Collection</span>
+        <h1 class="h1 mt balance" data-split data-split-now>Built for <span class="serif">every</span> opening.</h1>
+        <div class="page-head-row">
+            <p class="lead" data-reveal data-reveal-now data-delay="0.2">Precision UPVC &amp; aluminium systems with German hardware — priced per square foot, fabricated in our own workshop.</p>
+            <a href="visualizer.html" class="btn btn-red magnetic" data-reveal data-reveal-now data-delay="0.3"><span class="material-icons-outlined">view_in_ar</span> Try in your room</a>
+        </div>
+    </div>
+</section>
+
+<section class="section-s" style="padding-top:0">
+    <div class="container">
+        <div class="filter-bar" id="categories-list" role="tablist" aria-label="Product categories">
+            <a href="products.html" class="chip is-active" data-cat="">All products</a>
+        </div>
+        <p class="small muted mt" id="products-count" aria-live="polite"></p>
+        <div class="products-grid mt" id="products-grid">
+            <div class="skeleton" style="aspect-ratio:4/5"></div>
+            <div class="skeleton" style="aspect-ratio:4/5"></div>
+            <div class="skeleton" style="aspect-ratio:4/5"></div>
+            <div class="skeleton" style="aspect-ratio:4/5"></div>
+        </div>
+    </div>
+</section>
+
+<section class="section dark">
+    <div class="container split">
+        <div>
+            <span class="eyebrow" data-reveal>Not sure what fits?</span>
+            <h2 class="h2 mt balance" data-split>Book a free <span class="serif">site visit</span>.</h2>
+        </div>
+        <div>
+            <p class="lead" data-reveal>Our engineer will measure every opening, bring samples of profiles, colours and glass, and share an itemised quote — usually within 48 hours.</p>
+            <div class="flex wrap gap-s mt" data-reveal>
+                <a href="contact.html" class="btn btn-red magnetic">Book a visit <span class="material-icons-outlined arrow">arrow_forward</span></a>
+                <a href="tel:+919582010747" class="btn btn-ghost dynamic-phone-link"><span class="material-icons-outlined">call</span> Call us</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- @scripts -->
+<script>
+(function () {
+    const grid = document.getElementById("products-grid");
+    const list = document.getElementById("categories-list");
+    const count = document.getElementById("products-count");
+    let current = new URLSearchParams(location.search).get("category") || "";
+    let all = null;
+
+    async function load(cat) {
+        grid.setAttribute("aria-busy", "true");
+        const products = await fetchProducts(cat || null);
+        grid.removeAttribute("aria-busy");
+        if (!Array.isArray(products) || !products.length) {
+            grid.innerHTML = '<div class="empty"><span class="material-icons-outlined">inventory_2</span>No products in this category yet. <a class="link-arrow" href="contact.html">Ask us</a></div>';
+            count.textContent = "";
+            return;
+        }
+        count.textContent = products.length + (products.length === 1 ? " product" : " products");
+        grid.innerHTML = products.map(UPVC.productCard).join("");
+        UPVC.animate(grid);
+    }
+
+    function setActive() {
+        list.querySelectorAll(".chip").forEach((c) => {
+            const on = (c.dataset.cat || "") === current;
+            c.classList.toggle("is-active", on);
+            c.setAttribute("aria-selected", String(on));
+        });
+    }
+
+    list.addEventListener("click", (e) => {
+        const a = e.target.closest("[data-cat]");
+        if (!a) return;
+        e.preventDefault();
+        current = a.dataset.cat;
+        history.replaceState(null, "", current ? "?category=" + encodeURIComponent(current) : "products.html");
+        setActive();
+        load(current);
+        a.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+    });
+
+    // sticky filter shadow
+    const io = new IntersectionObserver(([e]) => list.classList.toggle("is-stuck", e.intersectionRatio < 1), { rootMargin: "-90px 0px 0px 0px", threshold: [1] });
+    io.observe(list);
+
+    (async () => {
+        const cats = await fetchCategories();
+        if (Array.isArray(cats)) {
+            list.insertAdjacentHTML("beforeend", cats.map((c) =>
+                `<a href="products.html?category=${encodeURIComponent(c.slug)}" class="chip" role="tab" data-cat="${UPVC.esc(c.slug)}">${c.icon ? `<span class="material-icons-outlined" style="font-size:18px">${UPVC.esc(c.icon)}</span>` : ""}${UPVC.esc(c.name)}${c.product_count != null ? ` <span style="opacity:.5">${c.product_count}</span>` : ""}</a>`).join(""));
+        }
+        setActive();
+    })();
+    load(current);
+})();
+</script>

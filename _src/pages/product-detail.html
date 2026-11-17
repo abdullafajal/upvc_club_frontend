@@ -1,0 +1,120 @@
+<!--
+{"title": "Product Details | UPVC Club", "description": "Specifications, pricing and finishes for UPVC Club windows and doors. Preview the product in your room with your phone camera.", "out": "product-detail.html", "body_class": "has-sticky-cta"}
+-->
+<section class="page-head" style="padding-bottom:clamp(24px,4vw,48px)">
+    <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb" data-reveal data-reveal-now>
+            <a href="index.html">Home</a><span>/</span><a href="products.html">Products</a><span>/</span><span class="prod-name" aria-current="page">Loading…</span>
+        </nav>
+    </div>
+</section>
+
+<section style="padding-bottom:clamp(64px,8vw,120px)">
+    <div class="container pd">
+        <div>
+            <div class="pd-media" id="pd-media" data-img-reveal>
+                <div class="ph" id="pd-ph"></div>
+                <img id="main-product-image" alt="" hidden>
+            </div>
+            <div class="pd-media pd-art mt" style="aspect-ratio:16/10;background:var(--ink)" data-reveal>
+                <div class="ph" id="pd-art" style="padding:8%"></div>
+                <a href="visualizer.html" class="btn btn-light btn-s js-try" style="position:absolute;left:16px;bottom:16px"><span class="material-icons-outlined">view_in_ar</span> Preview in your room</a>
+            </div>
+        </div>
+
+        <div class="pd-info">
+            <span class="eyebrow" id="prod-cat" data-reveal data-reveal-now>Product</span>
+            <h1 class="h2 mt prod-name" id="prod-title" data-reveal data-reveal-now>Loading…</h1>
+            <p class="pd-price mt" data-reveal data-reveal-now>₹<span id="prod-price">—</span> <small>/ <span id="prod-unit">sq.ft</span> onwards</small></p>
+            <div class="pd-desc mt" id="prod-desc" data-reveal data-reveal-now></div>
+
+            <div class="pd-actions mt-l" data-reveal data-reveal-now>
+                <a href="visualizer.html" class="btn btn-try btn-block js-try"><span class="material-icons-outlined">photo_camera</span> See it in your home</a>
+                <a href="contact.html" class="btn btn-block" id="quote-link">Get a quote <span class="material-icons-outlined arrow">arrow_forward</span></a>
+                <a href="tel:+919582010747" class="btn btn-ghost btn-block dynamic-phone-link"><span class="material-icons-outlined">call</span> Call an expert</a>
+            </div>
+
+            <div class="trust-row mt" data-reveal>
+                <div><span class="material-icons-outlined">verified</span>Long profile warranty</div>
+                <div><span class="material-icons-outlined">straighten</span>Free measurement</div>
+                <div><span class="material-icons-outlined">construction</span>Own install crew</div>
+            </div>
+
+            <div class="mt-l" id="specs-wrap" data-reveal>
+                <h2 class="h4 mb">Specifications</h2>
+                <table class="specs"><tbody id="prod-specs"></tbody></table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section bg-paper-2">
+    <div class="container">
+        <h2 class="h2 mb-l" data-split>You may also <span class="serif">like</span></h2>
+        <div class="products-grid" id="prod-related"></div>
+    </div>
+</section>
+
+<div class="mobile-sticky-cta">
+    <a href="visualizer.html" class="btn btn-try js-try" style="flex:1"><span class="material-icons-outlined">view_in_ar</span> Try at home</a>
+    <a href="contact.html" class="btn btn-light js-quote" style="flex:1">Enquire</a>
+</div>
+<!-- @scripts -->
+<script>
+(async function () {
+    const slug = new URLSearchParams(location.search).get("slug");
+    const setName = (t) => document.querySelectorAll(".prod-name").forEach((el) => (el.textContent = t));
+    if (!slug) { setName("Product not found"); return; }
+    const p = await fetchProductDetail(slug);
+    if (!p) {
+        setName("Product not found");
+        document.getElementById("prod-desc").innerHTML = '<p>This product may have been removed. <a class="link-arrow" href="products.html">Browse all products</a></p>';
+        return;
+    }
+    setName(p.name);
+    document.title = `${p.name} | UPVC Club`;
+    const md = document.querySelector('meta[name="description"]');
+    if (md && p.description) md.setAttribute("content", p.description.slice(0, 155));
+    document.getElementById("prod-cat").textContent = p.category ? p.category.name : "Product";
+    document.getElementById("prod-price").textContent = UPVC.price(p.base_price);
+    document.getElementById("prod-unit").textContent = UPVC.unit(p.unit);
+
+    const desc = document.getElementById("prod-desc");
+    desc.textContent = "";
+    (p.description || "").split(/\n+/).filter(Boolean).forEach((para) => { const el = document.createElement("p"); el.textContent = para; el.style.marginBottom = "10px"; desc.appendChild(el); });
+
+    const img = document.getElementById("main-product-image");
+    const art = UPVC.productArt(p);
+    document.getElementById("pd-art").innerHTML = art;
+    if (p.image) { img.src = p.image; img.alt = p.name; img.hidden = false; document.getElementById("pd-ph").remove(); }
+    else document.getElementById("pd-ph").innerHTML = art;
+
+    const tryUrl = "visualizer.html?product=" + encodeURIComponent(p.slug);
+    document.querySelectorAll(".js-try").forEach((a) => (a.href = tryUrl));
+    const q = "contact.html?product=" + encodeURIComponent(p.name);
+    document.getElementById("quote-link").href = q;
+    document.querySelectorAll(".js-quote").forEach((a) => (a.href = q));
+
+    const specs = p.specifications && typeof p.specifications === "object" ? Object.entries(p.specifications) : [];
+    if (specs.length) {
+        const tb = document.getElementById("prod-specs");
+        specs.forEach(([k, v]) => {
+            const tr = document.createElement("tr");
+            const th = document.createElement("th"); th.textContent = k.replace(/_/g, " ");
+            const td = document.createElement("td"); td.textContent = typeof v === "object" ? JSON.stringify(v) : v;
+            tr.append(th, td); tb.appendChild(tr);
+        });
+    } else document.getElementById("specs-wrap").remove();
+
+    let related = p.category ? await fetchProducts(p.category.slug) : [];
+    related = (related || []).filter((r) => r.slug !== p.slug);
+    if (related.length < 4) {
+        const feat = await fetchFeaturedProducts();
+        (feat || []).forEach((f) => { if (f.slug !== p.slug && !related.some((r) => r.slug === f.slug)) related.push(f); });
+    }
+    const rel = document.getElementById("prod-related");
+    rel.innerHTML = related.slice(0, 4).map(UPVC.productCard).join("");
+    if (!related.length) rel.closest("section").remove();
+    UPVC.animate(document);
+})();
+</script>

@@ -1,21 +1,17 @@
 {
   "name": "UPVC Club",
   "short_name": "UPVC Club",
-  "description": "Premium UPVC and Aluminium Fabrication, Windows, Doors, and Balcony Coverings in Noida & NCR.",
+  "description": "Premium UPVC and Aluminium windows, doors, balcony glazing and partitions in Noida & NCR. Preview them in your home with your camera.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#FEF7FF",
-  "theme_color": "#FEF7FF",
+  "background_color": "#f5f2ec",
+  "theme_color": "#0b1b33",
   "icons": [
-    {
-      "src": "./assets/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "./assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "./assets/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./assets/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "shortcuts": [
+    { "name": "Try at Home", "short_name": "Try at Home", "url": "./visualizer.html", "icons": [{ "src": "./assets/icons/icon-192x192.png", "sizes": "192x192" }] },
+    { "name": "Track Order", "short_name": "Track", "url": "./track-order.html", "icons": [{ "src": "./assets/icons/icon-192x192.png", "sizes": "192x192" }] }
   ]
 }

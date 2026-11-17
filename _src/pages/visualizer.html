@@ -1,0 +1,110 @@
+<!--
+{"title": "Try at Home — See UPVC Windows & Doors in Your Room | UPVC Club", "description": "Use your phone camera to preview UPVC & aluminium windows, doors, balcony glazing and partitions in your own home. Change finish and glass, capture and share.", "out": "visualizer.html", "body_class": "viz-page", "no_footer": true}
+-->
+    <link rel="stylesheet" href="./assets/css/visualizer.css?v=2.0.0">
+<!-- @head -->
+<div class="viz" data-lenis-prevent>
+    <div class="viz-top">
+        <a href="products.html" class="viz-icon" aria-label="Back to products"><span class="material-icons-outlined">arrow_back</span></a>
+        <div class="viz-top-title">
+            <b>Try at Home</b>
+            <span id="viz-subtitle">Place a window or door in your room</span>
+        </div>
+        <button class="viz-icon" id="viz-help-btn" aria-label="How it works"><span class="material-icons-outlined">help_outline</span></button>
+    </div>
+
+    <div class="viz-stage" id="viz-stage">
+        <video id="viz-video" playsinline muted autoplay hidden></video>
+        <img id="viz-photo" class="viz-photo" alt="Your room" hidden>
+        <canvas id="viz-overlay" class="viz-overlay" aria-hidden="true"></canvas>
+        <svg id="viz-outline" class="viz-outline" aria-hidden="true"><polygon points=""/></svg>
+        <button class="viz-handle" aria-label="Top-left corner"></button>
+        <button class="viz-handle" aria-label="Top-right corner"></button>
+        <button class="viz-handle" aria-label="Bottom-right corner"></button>
+        <button class="viz-handle" aria-label="Bottom-left corner"></button>
+        <div class="viz-hint" id="viz-hint"><span class="material-icons-outlined">touch_app</span>Drag the corners onto your window or wall opening</div>
+        <span class="viz-paused-badge">Frozen</span>
+        <div class="viz-flash"></div>
+
+        <div class="viz-start" id="viz-start">
+            <div class="viz-start-inner">
+                <div class="viz-start-art" aria-hidden="true">
+                    <svg viewBox="0 0 180 150" fill="none">
+                        <rect x="40" y="8" width="100" height="134" rx="16" stroke="#fff" stroke-width="4"/>
+                        <rect x="58" y="34" width="64" height="58" stroke="#de1b1b" stroke-width="4" stroke-dasharray="6 5"/>
+                        <line x1="90" y1="34" x2="90" y2="92" stroke="#de1b1b" stroke-width="4"/>
+                        <circle cx="58" cy="34" r="6" fill="#fff"/><circle cx="122" cy="34" r="6" fill="#fff"/>
+                        <circle cx="58" cy="92" r="6" fill="#fff"/><circle cx="122" cy="92" r="6" fill="#fff"/>
+                        <circle cx="90" cy="122" r="9" stroke="#fff" stroke-width="4"/>
+                    </svg>
+                </div>
+                <h1>See it in <span class="serif">your</span> home</h1>
+                <p>Point your camera at a window or wall, then drag our frame onto it. Try different styles, finishes and glass.</p>
+                <button class="btn btn-red" id="viz-cam"><span class="material-icons-outlined">photo_camera</span> Open camera</button>
+                <button class="btn btn-ghost" id="viz-upload"><span class="material-icons-outlined">add_photo_alternate</span> Upload a photo</button>
+                <button class="btn btn-ghost" id="viz-sample"><span class="material-icons-outlined">weekend</span> Use a sample room</button>
+                <div class="viz-error" id="viz-error" role="alert"></div>
+                <small><span class="material-icons-outlined" style="font-size:16px">lock</span> Your camera feed and photos never leave your phone.</small>
+            </div>
+        </div>
+        <input type="file" id="viz-file" accept="image/*" hidden>
+    </div>
+
+    <div class="viz-panel">
+        <div class="viz-tabs" role="tablist">
+            <button class="viz-tab" role="tab" data-tab="style" aria-selected="true">Style</button>
+            <button class="viz-tab" role="tab" data-tab="finish" aria-selected="false">Frame finish</button>
+            <button class="viz-tab" role="tab" data-tab="glass" aria-selected="false">Glass</button>
+            <button class="viz-tab" role="tab" data-tab="adjust" aria-selected="false">Adjust</button>
+        </div>
+        <div class="viz-opts" id="viz-opts"></div>
+        <div class="viz-actions">
+            <div class="left">
+                <button class="viz-icon" id="viz-source" aria-label="Change camera or photo"><span class="material-icons-outlined">add_a_photo</span></button>
+                <button class="viz-icon" id="viz-pause" aria-label="Freeze camera" hidden><span class="material-icons-outlined">pause</span></button>
+                <button class="viz-icon" id="viz-flip" aria-label="Switch camera" hidden><span class="material-icons-outlined">flip_camera_android</span></button>
+                <button class="viz-icon" id="viz-clean" aria-label="Hide guides"><span class="material-icons-outlined">visibility</span></button>
+            </div>
+            <button class="viz-shutter" id="viz-capture" aria-label="Capture photo"></button>
+            <div class="right"><a class="viz-quote viz-quote-link" href="contact.html"><span class="material-icons-outlined">request_quote</span>Quote</a></div>
+        </div>
+    </div>
+</div>
+
+<!-- Result -->
+<div class="viz-sheet" id="viz-result" aria-hidden="true" role="dialog" aria-label="Your preview">
+    <div class="viz-sheet-card">
+        <div class="viz-sheet-head">
+            <h2>Looks great!</h2>
+            <button class="viz-icon" data-close aria-label="Close"><span class="material-icons-outlined">close</span></button>
+        </div>
+        <img id="viz-result-img" alt="Your room with the selected window">
+        <div class="viz-sheet-actions">
+            <button class="btn btn-light" id="viz-download"><span class="material-icons-outlined">download</span> Save</button>
+            <button class="btn btn-ghost" id="viz-share"><span class="material-icons-outlined">ios_share</span> Share</button>
+            <a class="btn btn-red viz-quote-link" href="contact.html"><span class="material-icons-outlined">request_quote</span> Get a quote</a>
+            <a class="btn btn-ghost" id="viz-wa" href="https://wa.me/919582010747" target="_blank" rel="noopener"><span class="material-icons-outlined">chat</span> WhatsApp us</a>
+        </div>
+        <button class="btn btn-ghost btn-block" id="viz-retake" style="--btn-fg:#fff;border-color:rgba(255,255,255,.2)">Keep adjusting</button>
+    </div>
+</div>
+
+<!-- Help -->
+<div class="viz-sheet" id="viz-help" aria-hidden="true" role="dialog" aria-label="How it works">
+    <div class="viz-sheet-card" style="max-width:440px">
+        <div class="viz-sheet-head">
+            <h2>How it works</h2>
+            <button class="viz-icon" data-close aria-label="Close"><span class="material-icons-outlined">close</span></button>
+        </div>
+        <ol class="viz-steps">
+            <li><div><b>Frame your opening</b>Stand straight in front of the window or wall. Tap pause to freeze the camera.</div></li>
+            <li><div><b>Drag the 4 corners</b>Place each white dot on a corner of the opening. Drag inside to move, pinch to resize.</div></li>
+            <li><div><b>Pick a style</b>Switch between windows, doors, balcony glazing and partitions. Change frame finish and glass.</div></li>
+            <li><div><b>Capture &amp; share</b>Save the photo, share it with family, or send it to us for an exact quote.</div></li>
+        </ol>
+        <button class="btn btn-red btn-block" data-close>Got it</button>
+    </div>
+</div>
+<div class="viz-toast" id="viz-toast" role="status" aria-live="polite"></div>
+<!-- @scripts -->
+<script src="./assets/js/visualizer.js?v=2.0.0"></script>

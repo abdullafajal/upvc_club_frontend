@@ -1,0 +1,45 @@
+<!--
+{"title": "Sitemap | UPVC Club", "description": "All pages on the UPVC Club website.", "out": "sitemap.html"}
+-->
+<section class="page-head">
+    <div class="container">
+        <span class="eyebrow" data-reveal data-reveal-now>Sitemap</span>
+        <h1 class="h1 mt" data-split data-split-now>Every <span class="serif">page</span>.</h1>
+    </div>
+</section>
+<section style="padding-bottom:clamp(80px,10vw,140px)">
+    <div class="container cards-3" data-reveal-stagger>
+        <div class="card" data-reveal>
+            <h2 class="h4">Main pages</h2>
+            <ul class="list-lines">
+                <li><span class="n">01</span><a href="index.html" class="link-arrow">Home</a></li>
+                <li><span class="n">02</span><a href="products.html" class="link-arrow">Products</a></li>
+                <li><span class="n">03</span><a href="visualizer.html" class="link-arrow">Try at Home</a></li>
+                <li><span class="n">04</span><a href="portfolio.html" class="link-arrow">Our Work</a></li>
+                <li><span class="n">05</span><a href="about.html" class="link-arrow">About Us</a></li>
+                <li><span class="n">06</span><a href="contact.html" class="link-arrow">Contact</a></li>
+                <li><span class="n">07</span><a href="track-order.html" class="link-arrow">Track Order</a></li>
+            </ul>
+        </div>
+        <div class="card" data-reveal>
+            <h2 class="h4">Categories</h2>
+            <ul class="list-lines" id="sitemap-cats">
+                <li><span class="n">—</span><a href="products.html" class="link-arrow">All products</a></li>
+            </ul>
+        </div>
+        <div class="card" data-reveal>
+            <h2 class="h4">Legal</h2>
+            <ul class="list-lines">
+                <li><span class="n">01</span><a href="privacy-policy.html" class="link-arrow">Privacy Policy</a></li>
+                <li><span class="n">02</span><a href="terms.html" class="link-arrow">Terms of Service</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- @scripts -->
+<script>
+fetchCategories().then((cats) => {
+    const ul = document.getElementById("sitemap-cats");
+    (cats || []).forEach((c, i) => ul.insertAdjacentHTML("beforeend", `<li><span class="n">${String(i + 1).padStart(2, "0")}</span><a class="link-arrow" href="products.html?category=${encodeURIComponent(c.slug)}">${UPVC.esc(c.name)}</a></li>`));
+});
+</script>
